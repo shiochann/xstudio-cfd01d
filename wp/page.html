@@ -31,11 +31,25 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 .xas .screen .ttl { font-family: "Jost", sans-serif; color: var(--blue); letter-spacing: .1em; font-size: 22px; line-height: 1; margin: 0 0 4px; }
 .xas .screen .jp { color: var(--blue); font-weight: 700; font-size: 12px; margin: 0 0 14px; }
 .xas .screen .steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
-.xas .screen .steps span { background: #FFFFFF; border-radius: 999px; padding: 3px 12px; font-size: 12px; font-weight: 700; }
-.xas .screen .steps span.on { background: var(--blue); color: #FFFFFF; }
+.xas .screen .cap { margin: 0 0 12px; font-size: 12px; font-weight: 700; color: var(--blue); }
+.xas .screen .steps button { font: inherit; border: 0; cursor: pointer; background: #FFFFFF; color: #0A0A0A; border-radius: 999px; padding: 4px 13px; font-size: 12px; font-weight: 700; }
+.xas .screen .steps button:hover { background: var(--pale); }
+.xas .screen .steps button.on { background: var(--blue); color: #FFFFFF; }
+.xas .screen .pane { min-height: 330px; }
+.xas .screen .q { font-family: "Jost", sans-serif; color: var(--blue); letter-spacing: .08em; margin-right: 8px; }
+.xas .screen .inp.ph { color: #9AA7AF; }
+.xas .screen .inp.art { line-height: 1.8; }
+.xas .screen .plan { background: #FFFFFF; border: 2px solid transparent; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; }
+.xas .screen .plan.on { border-color: var(--blue); }
+.xas .screen .plan b { display: block; font-size: 13px; line-height: 1.6; }
+.xas .screen .plan span { font-size: 12px; font-weight: 700; color: var(--blue); }
+.xas .screen .meter { font-family: "Jost", sans-serif; font-size: 12px; letter-spacing: .06em; color: var(--blue); margin: 0 0 6px; }
+.xas .screen .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.xas .screen .chips span { background: #FFFFFF; border: 1px solid var(--pale); border-radius: 999px; padding: 2px 11px; font-size: 12px; font-weight: 700; }
+.xas [hidden] { display: none !important; }
 .xas .screen .lab { font-size: 12px; font-weight: 700; margin: 10px 0 4px; }
 .xas .screen .inp { background: #FFFFFF; border-radius: 8px; padding: 9px 12px; font-size: 13px; line-height: 1.7; color: #333333; }
-.xas .screen .go { display: inline-block; margin-top: 16px; background: var(--blue); color: #FFFFFF; border-radius: 999px; padding: 9px 22px; font-size: 13px; font-weight: 700; }
+.xas .screen .go { display: inline-block; margin-top: 16px; background: var(--blue); color: #FFFFFF; border: 0; cursor: pointer; font-family: inherit; text-decoration: none; border-radius: 999px; padding: 9px 22px; font-size: 13px; font-weight: 700; }
 .xas section { padding: 84px 0; }
 .xas section.tint { background: var(--mist); }
 .xas section.sea { background: var(--blue); color: #FFFFFF; }
@@ -102,16 +116,52 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
           <a class="pill big" href="#howto">使い方を先に読む</a>
         </div>
       </div>
-      <div class="mock" aria-hidden="true">
-        <div class="screen">
-          <p class="ttl">MATERIAL</p>
-          <p class="jp">まず、記事の素材を入れる</p>
-          <div class="steps"><span class="on">01 素材</span><span>02 質問</span><span>03 構成</span><span>04 本文</span><span>05 告知とサムネ</span></div>
-          <p class="lab">記事のテーマ</p>
-          <div class="inp">Threadsの投稿をXにも出し始めて気づいたこと</div>
-          <p class="lab">記事にしたい内容（体験メモ）</p>
-          <div class="inp">・そのままXに貼ったら、ほとんど反応がなかった<br>・1投稿目だけ書き直したら、リプが付き始めた<br>・まだ途中で、うまくいっていない部分もある</div>
-          <span class="go">足りない話を質問してもらう</span>
+      <div class="mock">
+        <div class="screen" id="tour">
+          <p class="cap">画面イメージ　タブを押すと、各ステップの画面が見られます</p>
+          <div class="steps" role="tablist">
+            <button type="button" class="on" data-t="0">01 素材</button><button type="button" data-t="1">02 質問</button><button type="button" data-t="2">03 構成</button><button type="button" data-t="3">04 本文</button><button type="button" data-t="4">05 告知とサムネ</button>
+          </div>
+          <div class="pane" data-p="0">
+            <p class="ttl">MATERIAL</p><p class="jp">まず、記事の素材を入れる</p>
+            <p class="lab">記事のテーマ</p>
+            <div class="inp">Threadsの投稿をXにも出し始めて気づいたこと</div>
+            <p class="lab">記事にしたい内容（体験メモ）</p>
+            <div class="inp">・そのままXに貼ったら、ほとんど反応がなかった<br>・1投稿目だけ書き直したら、リプが付き始めた<br>・まだ途中で、うまくいっていない部分もある</div>
+            <button type="button" class="go" data-t="1">足りない話を質問してもらう</button>
+          </div>
+          <div class="pane" data-p="1" hidden>
+            <p class="ttl">QUESTIONS</p><p class="jp">記事に足りない話を、質問で引き出す</p>
+            <p class="lab"><span class="q">Q1</span>そのまま貼っていた時期は、何本くらい試しましたか？</p>
+            <div class="inp">2週間で20本くらい。いいねは毎回0〜2</div>
+            <p class="lab"><span class="q">Q2</span>1投稿目を、具体的にどう書き直しましたか？</p>
+            <div class="inp">前置きを消して、結論の1行から始めた</div>
+            <p class="lab"><span class="q">Q3</span>まだうまくいっていないことは何ですか？</p>
+            <div class="inp ph">分からなければ空欄のままでOK</div>
+            <button type="button" class="go" data-t="2">構成を提案してもらう</button>
+          </div>
+          <div class="pane" data-p="2" hidden>
+            <p class="ttl">OUTLINE</p><p class="jp">タイトルと構成を選ぶ</p>
+            <div class="plan on"><b>Threadsの投稿をXに貼って20本すべった話【直した順番つき】</b><span>失敗から入る</span></div>
+            <div class="plan"><b>Threads民がXを始める前に直す3か所【チェックリスト付き】</b><span>手順に絞る</span></div>
+            <div class="plan"><b>「同じ投稿を両方に出せばいい」は半分まちがいだった</b><span>思い込みをひっくり返す</span></div>
+            <button type="button" class="go" data-t="3">この構成で記事を書く</button>
+          </div>
+          <div class="pane" data-p="3" hidden>
+            <p class="ttl">WRITING</p><p class="jp">本文を仕上げる</p>
+            <p class="meter">3,842字 ・ 原稿用紙 10枚</p>
+            <div class="inp art"># Threadsの投稿をXに貼って20本すべった話【直した順番つき】<br><br>2週間で20本。<br>いいねは毎回0〜2。<br>Threadsでは読まれていた投稿です。<br><br>変えたのは1か所だけでした。<br>【要追記：書き直したあとの反応の数字】</div>
+            <div class="chips"><span>もっと自分の口調に</span><span>短くする</span><span>選んだ部分だけ直す</span><span>作り話チェック</span></div>
+            <button type="button" class="go" data-t="4">告知投稿とサムネ用プロンプトを作る</button>
+          </div>
+          <div class="pane" data-p="4" hidden>
+            <p class="ttl">PROMOTION</p><p class="jp">告知投稿とサムネ用プロンプト</p>
+            <p class="lab">告知投稿（1本）</p>
+            <div class="inp">Threadsの投稿をそのままXに貼って、20本すべりました。直したのは1か所だけ。記事にまとめました【記事URL】</div>
+            <p class="lab">サムネ用プロンプト（ChatGPTに貼る）</p>
+            <div class="inp">画像サイズ：横長（5:2）<br>大きく入れる文字：20本すべった話<br>小さく入れる文字：ThreadsからXへ、直した順番<br>雰囲気と配色：白地に青、すっきり…</div>
+            <a class="go" href="https://claude.ai/artifact/5vsqqg2bg9XwcMS2yXQJwC" target="_blank" rel="noopener">本物のツールを開く</a>
+          </div>
         </div>
       </div>
     </div>
@@ -203,4 +253,10 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
   </section>
   <p class="foot">SHIO AI SCHOOL</p>
 </div>
+<script>
+(function(){var t=document.getElementById("tour");if(!t)return;
+t.addEventListener("click",function(e){var b=e.target.closest("[data-t]");if(!b)return;var n=b.getAttribute("data-t");
+t.querySelectorAll(".pane").forEach(function(p){p.hidden=p.getAttribute("data-p")!==n});
+t.querySelectorAll(".steps button").forEach(function(x){x.classList.toggle("on",x.getAttribute("data-t")===n)});});})();
+</script>
 <!-- /wp:html -->
