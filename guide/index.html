@@ -84,6 +84,8 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 .xas .loop small { display: block; font-weight: 500; font-size: 14px; margin-top: 4px; }
 .xas .notes { margin: 0; padding-left: 1.3em; }
 .xas .notes li { margin-bottom: 8px; }
+.xas .notes.tips { margin-top: 30px; }
+.xas .intro { margin: -14px 0 30px; max-width: 40em; }
 .xas details { background: #FFFFFF; border-radius: 8px; margin-bottom: 10px; }
 .xas summary { cursor: pointer; font-weight: 700; padding: 18px 24px; }
 .xas details p { margin: 0; padding: 0 24px 22px; font-size: 15px; color: #333333; }
@@ -213,7 +215,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
       <ol class="flow">
         <li><span class="n">01</span><div><b>Claudeにログインしてから、ツールのリンクを開く</b><p>先に claude.ai にログインしておき、「X記事スタジオを開く」を押します。この時点では上の表示が「コピペモード」になっていますが、それで合っています。</p></div></li>
         <li><span class="n">02</span><div><b>左上の「X記事スタジオ ▾」から「複製」する</b><p>画面左上のツール名を押して「複製」を選ぶと、あなた専用のコピーができます。コピーの持ち主はあなたなので、ここからはあなたのClaudeで動きます。</p></div></li>
-        <li><span class="n">03</span><div><b>「Claudeにつながっています」を確認して、ブックマークする</b><p>コピーを開いて10秒ほど待つと、上の表示が「Claudeにつながっています」に変わります。次からはこのコピーを開くので、ブックマークしておいてください。</p></div></li>
+        <li><span class="n">03</span><div><b>「Claudeにつながっています」を確認して、コピーを取っておく</b><p>コピーを開いて10秒ほど待つと、上の表示が「Claudeにつながっています」に変わります。次からはこのコピーを使うので、すぐ開けるようにしておきます。やり方は、この下の「<a href="#keep">自分のコピーを取っておく</a>」を見てください。</p></div></li>
         <li><span class="n">04</span><div><b>アカウント設定に、自分の過去投稿を貼る</b><p>左の「アカウント設定」で、自分らしい投稿を3〜10本貼ります。これが口調の見本になります。複数アカウントを運用している人は、ここでアカウントを追加できます。</p></div></li>
         <li><span class="n">05</span><div><b>参考にしたい記事を登録する（やらなくてもOK）</b><p>「参考にする記事」に、構成を真似したいXの記事の本文を貼って「構成を分解してもらう」。骨組みだけが保存され、次から選べるようになります。</p></div></li>
         <li><span class="n">06</span><div><b>素材を入れて、ボタンを押す</b><p>テーマ・読んでほしい相手・記事にしたい内容を入れて「足りない話を質問してもらう」。初回だけ「Claudeの利用枠を使ってよいか」の確認が出るので、許可してください。</p></div></li>
@@ -222,6 +224,24 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
         <li><span class="n">09</span><div><b>サムネを作る</b><p>最後の画面に出てくるサムネ用プロンプトをコピーして、ChatGPTに貼ります。自分のキャラクターを入れたいときは、先にキャラの画像を添付してから、同じメッセージにプロンプトを貼って送信します。</p></div></li>
       </ol>
       <p class="loop">複製がうまくいかないときは、コピペで使える予備のページがあります。<small><a href="https://shiochann.github.io/xstudio-cfd01d/" target="_blank" rel="noopener">予備のページを開く</a>　指示文をコピーして自分のClaudeに貼り、返事を貼り戻す方式です。機能は同じです。</small></p>
+    </div>
+  </section>
+
+  <section id="keep">
+    <div class="wrap">
+      <h2 class="head"><span class="en">KEEP YOUR COPY</span><span class="jp">自分のコピーを取っておく</span></h2>
+      <p class="intro">複製してできたコピーは、あなたのClaudeの中に保存されています。次からすぐ開けるように、下のどちらか（両方でもOK）をやっておいてください。</p>
+      <div class="three">
+        <div class="card"><span class="num">おすすめ</span><h3>Claudeにピン留めする</h3><p>コピーを開いた状態で、左上のツール名（X記事スタジオ (Copy) ▾）を押して「ピン留め」を選びます。Claudeの左のサイドバーにいつも表示されるようになり、1回押すだけで開けます。</p></div>
+        <div class="card"><span class="num">これでもOK</span><h3>ブラウザのお気に入りに入れる</h3><p>コピーを開いた状態で、アドレスバーの右にある ☆ を押します（Chromeの場合）。次からは、お気に入りから開けます。開くときはClaudeにログインした状態にしてください。</p></div>
+        <div class="card"><span class="num">見失ったら</span><h3>「すべてのアーティファクト」から探す</h3><p>どこかのアーティファクトを開いて、左上のツール名 ▾ →「すべてのアーティファクト」を押すと、自分のコピーが一覧に出てきます。</p></div>
+      </div>
+      <ul class="notes tips">
+        <li>同じメニューの「名前を変更」で、(Copy) を消したり、自分の分かりやすい名前に変えたりできます。</li>
+        <li>必ず<b>複製したあとの自分のコピー</b>をピン留め・お気に入りにしてください。複製する前の元のページを登録すると、開くたびに「コピペモード」になります。</li>
+        <li>ピン留めやお気に入りは、ツールへの近道です。下書き・アカウント設定・保管庫の中身は、使っている端末のブラウザに保存されています。別の端末や別のブラウザで開くと空の状態から始まるので、引っ越すときは「アカウント設定」のバックアップを使ってください。</li>
+        <li>メニューにある「アーティファクトを削除」を押すと、コピーごと消えます。まちがえて押さないよう気をつけてください。</li>
+      </ul>
     </div>
   </section>
 
