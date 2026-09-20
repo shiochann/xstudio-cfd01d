@@ -127,6 +127,7 @@ textarea{resize:vertical;min-height:92px}
 .thumb .hint{color:var(--accent-ink);opacity:.9}
 .thumb textarea{border-color:transparent}
 .thumb textarea#prD{min-height:230px}
+.thumb input[type=file]{color:var(--accent-ink)}
 .thumb .btn{background:var(--ground);border-color:var(--ground);color:var(--accent)}
 .thumb .check input{accent-color:var(--ground)}
 .thumb :is(input,textarea,button):focus-visible{outline-color:var(--ground)}
@@ -293,8 +294,17 @@ a{color:var(--accent);font-weight:700}
             <div class="field"><div class="headrow"><label for="prB">ツリー版</label><button class="btn quiet" type="button" data-copy="prB">コピー</button></div><textarea id="prB"></textarea></div>
             <div class="field"><div class="headrow"><label for="prC">別の角度から紹介する投稿</label><button class="btn quiet" type="button" data-copy="prC">コピー</button></div><textarea id="prC"></textarea></div>
           </div>
+        </div>
           <div class="thumb">
             <h3>THUMBNAIL <small>サムネを作る（ChatGPTに貼るプロンプト）</small></h3>
+            <div class="field"><label for="thumbRef">参考にしたいサムネ画像（1〜3枚・なくてもOK）</label>
+              <input type="file" id="thumbRef" accept="image/png,image/jpeg,image/webp,image/gif" multiple>
+              <p class="hint">「こういう雰囲気にしたい」というサムネの画像を選ぶと、構図・配色・文字の入れ方を読み取って「デザインの型」にします。画像そのものはどこにも保存されません。</p>
+              <div class="btns"><button class="btn" id="thumbAnalyze" type="button" data-gen>参考画像からデザインの型を読み取る</button></div></div>
+            <div class="field"><label for="thumbStyle">サムネのデザインの型（このアカウントに保存され、次の記事でも使えます）</label>
+              <textarea id="thumbStyle" rows="7" placeholder="参考画像を読み取ると、ここに入ります。自分で書いたり、書き換えたりしてもOK。例：左に大きな白文字2行、右下にキャラ、背景は濃い青のベタ…"></textarea>
+              <div class="btns"><button class="btn" id="thumbRemake" type="button" data-gen>この型でサムネ用プロンプトを作る</button></div></div>
+            <label class="check" for="useRefImg"><input type="checkbox" id="useRefImg">ChatGPTにも参考画像を添付する（仕上がりがいちばん近くなります）</label>
             <label class="check" for="useChar"><input type="checkbox" id="useChar">自分のアカウントのキャラクターをサムネに入れる</label>
             <div class="field"><div class="headrow"><label for="prD">サムネ用プロンプト</label><button class="btn" type="button" data-copy="prD">プロンプトをコピー</button></div>
               <textarea id="prD"></textarea>
@@ -306,11 +316,11 @@ a{color:var(--accent);font-weight:700}
               <ul class="howto">
                 <li>文字が崩れた →「文字が崩れています。『◯◯』と正確に打ち直してください」</li>
                 <li>文字が小さい →「見出しの文字を、画像の横幅の7割まで大きくしてください」</li>
+                <li>参考に寄せたい →「1枚目の参考画像の構図と配色に、もっと近づけてください。文字は今のままで」</li>
                 <li>キャラが変わった →「キャラクターは添付画像のまま変えないで、背景と文字だけ作り直してください」</li>
                 <li>雰囲気を変えたい →「レイアウトはそのまま、配色だけ◯◯系にしてください」</li>
               </ul></div>
           </div>
-        </div>
         <div class="btns"><button class="btn ghost" id="rePromo" type="button" data-gen>別の案で作り直す</button>
           <button class="btn quiet" id="resetAll" type="button">最初から新しい記事を作る</button></div>
       </section>
@@ -374,6 +384,7 @@ a{color:var(--accent);font-weight:700}
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
   <div class="box">
     <h3 id="sheetTitle">自分のClaudeに貼って進める</h3>
+    <p class="note" id="sheetNote" hidden></p>
     <ol>
       <li><div class="field"><span class="lab">この指示文をコピーする</span>
         <textarea id="sheetPrompt" readonly></textarea>
@@ -401,13 +412,14 @@ memo:"・Threadsの投稿をそのままXに貼ったら、ほとんど反応が
 posts:"正直、Xってちょっと怖いと思ってた。\nでもやってみたら、Threadsとは読まれ方が違う感じがする。\nまだ途中だけど、分かったことから書いていくね"};
 var FIELDS=["theme","reader","type","goal","length","product","memo"];
 
-function newDraft(ac,example){return {step:1,isExample:!!example,theme:example?EXAMPLE.theme:"",reader:example?EXAMPLE.reader:(ac.reader||""),type:"story",goal:ac.goal||"follow",length:"std",product:"",memo:example?EXAMPLE.memo:"",refIds:[],questions:[],outlines:[],pick:-1,outlineText:"",article:"",prev:"",truncated:false,promo:null}}
-function newAccount(name,example){var ac={id:uid(),name:name,reader:"",goal:"follow",posts:example?EXAMPLE.posts:"",charNote:"",useChar:false,items:[]};ac.draft=newDraft(ac,example);return ac}
+function newDraft(ac,example){return {step:1,isExample:!!example,theme:example?EXAMPLE.theme:"",reader:example?EXAMPLE.reader:(ac.reader||""),type:"story",goal:ac.goal||"follow",length:"std",product:"",memo:example?EXAMPLE.memo:"",refIds:[],questions:[],outlines:[],pick:-1,outlineText:"",article:"",prev:"",truncated:false,promo:null,thumb:""}}
+function newAccount(name,example){var ac={id:uid(),name:name,reader:"",goal:"follow",posts:example?EXAMPLE.posts:"",charNote:"",useChar:false,thumbStyle:"",useRefImg:false,items:[]};ac.draft=newDraft(ac,example);return ac}
 function fixAccount(ac){
   if(!ac||typeof ac!=="object")return null;
-  ac.id=ac.id||uid();ac.name=ac.name||"アカウント";ac.reader=ac.reader||"";ac.goal=ac.goal||"follow";ac.posts=ac.posts||"";ac.charNote=ac.charNote||"";ac.useChar=!!ac.useChar;
+  ac.id=ac.id||uid();ac.name=ac.name||"アカウント";ac.reader=ac.reader||"";ac.goal=ac.goal||"follow";ac.posts=ac.posts||"";ac.charNote=ac.charNote||"";ac.useChar=!!ac.useChar;ac.thumbStyle=ac.thumbStyle||"";ac.useRefImg=!!ac.useRefImg;
   ac.items=Array.isArray(ac.items)?ac.items.filter(function(x){return x&&x.id}):[];
   var d=newDraft(ac,false);if(ac.draft&&typeof ac.draft==="object"){for(var k in ac.draft)d[k]=ac.draft[k]}
+  if(!d.thumb&&Array.isArray(d.promo)&&d.promo[3])d.thumb=d.promo[3];
   if(!Array.isArray(d.refIds))d.refIds=[];if(!Array.isArray(d.questions))d.questions=[];if(!Array.isArray(d.outlines))d.outlines=[];
   ac.draft=d;return ac;
 }
@@ -436,8 +448,9 @@ async function detect(){
 $("engineToggle").addEventListener("click",function(){DB.forceManual=engine==="ai";engine=DB.forceManual?"manual":"ai";save();renderEngine()});
 
 var HIDE=["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"];
-function manual(prompt){
+function manual(prompt,note){
   return new Promise(function(res,rej){
+    $("sheetNote").hidden=!note;$("sheetNote").textContent=note||"";
     $("sheetPrompt").value=prompt;$("sheetReply").value="";$("sheet").hidden=false;
     function done(){$("sheet").hidden=true;$("sheetOk").onclick=null;$("sheetCancel").onclick=null}
     $("sheetOk").onclick=function(){var t=$("sheetReply").value.trim();if(!t){toast("Claudeの返事を貼ってから押してください");return}done();res({text:t,truncated:false})};
@@ -450,15 +463,20 @@ async function generate(input,opt){
   opt=opt||{};
   if(engine==="checking"){await detect()}
   var flat=typeof input==="string"?input:input.map(function(t){return (t.role==="user"?"":"【ここまでの出力】\n")+t.content}).join("\n\n");
-  if(engine!=="ai")return manual(flat);
+  if(engine!=="ai")return manual(flat,opt.note);
+  if(opt.images){var lim=null;try{lim=await sampleFn.limits()}catch(e){}
+    if(!lim||!lim.images)return manual(flat,opt.note);
+    opt.images=Array.prototype.slice.call(opt.images,0,lim.images.maxCount||1)}
   ctl=new AbortController();
   var o={signal:ctl.signal,modelTier:opt.tier||"default"};
   if(opt.fresh)o.cache=false;
   if(opt.onText)o.onText=function(ev){opt.onText(ev.text)};
+  if(opt.images)o.images=opt.images;
   $("barText").textContent=opt.label||"Claudeが書いています…";$("bar").hidden=false;
   try{return await sampleFn(input,o)}
   catch(e){
-    if(e&&HIDE.indexOf(e.code)>=0){engine="manual";renderEngine();$("bar").hidden=true;toast("この画面からClaudeを呼べないため、コピペモードに切り替えました");return manual(flat)}
+    if(e&&HIDE.indexOf(e.code)>=0){engine="manual";renderEngine();$("bar").hidden=true;toast("この画面からClaudeを呼べないため、コピペモードに切り替えました");return manual(flat,opt.note)}
+    if(e&&(e.code==="images_unavailable"||e.code==="image_rejected")){$("bar").hidden=true;toast("この画面からは画像を送れませんでした。指示文と一緒に、画像をClaudeに添付してください");return manual(flat,opt.note)}
     throw e;
   }finally{$("bar").hidden=true;ctl=null}
 }
@@ -524,8 +542,15 @@ function pRewrite(inst){return "下のXの記事を、指示どおりに書き�
 function pFix(sel,inst){return "下のXの記事のうち、「直す部分」だけを指示どおりに書き直してください。\n\n# 指示\n"+inst+"\n\n"+RULES+"\n"+materials()+"\n# 記事の全文（前後のつながりを確認するため）\n"+S.article+"\n\n# 直す部分\n"+sel+"\n\n# 出力\n直した部分の文章だけを出力する。前置きやカギ括弧は付けない。"}
 function pCheck(){return "下の「素材」と「記事」を照らし合わせて、記事の中で素材に裏づけのない箇所を洗い出してください。\n\n# 探すもの\n- 素材にない体験・実績・数字・固有名詞・他人の声\n- Xのアルゴリズムや伸び方についての断定、成果の保証\n- タイトルで約束したのに本文で渡していないもの\n\n"+materials()+"\n# 記事\n"+S.article+"\n\n# 出力の形\n見つかった箇所ごとに「・該当の文（短く引用）→ 理由 → 直し方の案」を1行ずつ。見つからなければ「素材にない話は見つかりませんでした」とだけ書く。"}
 function pPromo(){return "下のXの記事を公開したあとに出す投稿と、サムネイル（記事の表紙画像）を作るためのプロンプトを作ってください。\n\n"+RULES+"\n# 記事\n"+S.article+"\n\n"+(A.posts.trim()?"# 本人の過去投稿（話し方の見本）\n"+A.posts.trim()+"\n\n":"")+
-"# 作るもの\n1. 告知：記事への入口になる投稿を1本。140字以内。記事の中身を要約せず、読みたくなる1点だけを出す\n2. ツリー：3〜4投稿のツリー。投稿の間は空行で区切る。最後の投稿で記事に案内する\n3. 別角度：同じ記事を、1とは違う切り口（別の読者の悩み、別の場面）から紹介する投稿を1本\n4. サムネプロンプト：この記事の表紙画像を、ChatGPTの画像生成で作ってもらうための指示文。ChatGPTにそのまま貼れる完成形で、次の項目を埋めて書く\n   - 画像サイズ：横長（5:2）\n   - 大きく入れる文字：12字以内の見出しを1つ\n   - 小さく入れる文字：20字以内\n   - 雰囲気と配色：記事の内容と読者に合うもの\n   - レイアウト：文字の位置、余白の取り方\n   - 文字の指定：日本語を一字も変えず正確に。読みやすい太いゴシック体\n   - 末尾に「見出しの別案」を2つ添える\n   記事に書かれていない実績や数字を、画像の文字に入れない。キャラクターや人物については書かない（あとで別に足す）\n\n投稿の中で記事のURLを入れる場所は【記事URL】と書く。\n\n# 出力の形（この形を厳守）\n===告知===\n…\n===ツリー===\n…\n===別角度===\n…\n===サムネプロンプト===\n…"}
-function charBlock(){return "# キャラクター\nこのメッセージに添付した画像のキャラクターを、顔・髪型・服・色を変えずにそのまま使ってください。置く場所は右側で、文字と重ならないようにしてください。"+(A.charNote.trim()?"\nキャラクターの補足：" +A.charNote.trim():"")}
+"# 作るもの\n1. 告知：記事への入口になる投稿を1本。140字以内。記事の中身を要約せず、読みたくなる1点だけを出す\n2. ツリー：3〜4投稿のツリー。投稿の間は空行で区切る。最後の投稿で記事に案内する\n3. 別角度：同じ記事を、1とは違う切り口（別の読者の悩み、別の場面）から紹介する投稿を1本\n4. サムネプロンプト：この記事の表紙画像を、ChatGPTの画像生成で作ってもらうための指示文\n"+thumbSpec()+"\n投稿の中で記事のURLを入れる場所は【記事URL】と書く。\n\n# 出力の形（この形を厳守）\n===告知===\n…\n===ツリー===\n…\n===別角度===\n…\n===サムネプロンプト===\n…"}
+function thumbSpec(){var st=A.thumbStyle.trim();return (st?"\n# サムネのデザインの型（参考にしたいサムネから読み取ったもの。サムネの指示文は、必ずこの型に沿わせる）\n"+st+"\n":"")+
+"\n# サムネの指示文の書き方\n- ChatGPTにそのまま貼れる完成形で書く。あいまいな形容（おしゃれに、いい感じに）を使わず、位置・大きさ・色を具体的に書く\n- 次の項目を、この順に埋める\n  画像サイズ：横長（5:2）\n  大きく入れる文字：12字以内の見出しを1つ。記事のいちばん強い1点を、読者の言葉で\n  小さく入れる文字：20字以内。なくてもよい\n  構図：文字・絵・余白の位置関係を、画面の左右上下と割合で"+(st?"（型のとおりに）":"")+"\n  配色：背景・大きい文字・小さい文字・差し色を、色名とカラーコードで"+(st?"（型のとおりに）":"")+"\n  文字の加工：太さ、書体の印象、縁取り・影・帯などの有無\n  飾り：入れるものと、入れないもの\n  文字の指定：日本語を一字も変えず正確に。ここに書いた文字以外の文字を画像に入れない\n- 末尾に「見出しの別案」を2つ添える\n- 記事に書かれていない実績や数字を、画像の文字に入れない\n- キャラクター・人物・添付画像については書かない（あとで別に足す）\n"}
+function pThumb(){return "下のXの記事の表紙画像（サムネイル）を、ChatGPTの画像生成で作ってもらうための指示文を書いてください。\n\n# 記事\n"+S.article+"\n"+thumbSpec()+"\n# 出力\n指示文だけを出力する。前置きや解説は付けない。アスタリスク（*）の記号は使わない。"}
+function pThumbStyle(){return "添付した画像は、参考にしたいサムネイル（記事の表紙画像）です。別の記事のサムネを同じ雰囲気で作るために、デザインの型だけを言葉で取り出してください。\n\n# 取り出すもの\n- 構図：文字・絵・余白の位置関係を、画面の左右上下と、おおよその割合で\n- 配色：背景・大きい文字・小さい文字・差し色を、色名とおおよそのカラーコードで\n- 文字：大きい文字と小さい文字がいくつあるか、1行の文字数の目安、太さ、書体の印象、縁取り・影・帯・傾きなどの加工\n- 飾り：吹き出し、矢印、枠、アイコン、光、集中線など。使っていないものは「なし」と書く\n- 人物やキャラクターの置き方：位置、大きさ、切り抜き方、視線の向き。いなければ「なし」\n- 全体の印象を一言で\n\n# 守ること\n- 画像に書かれている文章そのもの、ロゴ、写っている人物やキャラクターの見た目は書き写さない。どんなデザインかだけを書く\n- 複数枚あるときは共通点を型にして、違いは最後に「バリエーション」として1〜2行で添える\n\n# 出力の形\n箇条書きで12行以内。前置きや解説は書かない。アスタリスク（*）の記号は使わない。"}
+function attachBlock(){var r=A.useRefImg,c=A.useChar;if(!r&&!c)return "";var t="# 添付した画像について\n";
+  if(r)t+=(c?"1枚目は":"添付した画像は")+"参考にしたいサムネです。構図・配色・文字の入れ方の雰囲気だけを参考にしてください。そこに書かれている文字、ロゴ、人物やキャラクターは写さないでください。\n";
+  if(c)t+=(r?"2枚目は":"添付した画像は")+"私のキャラクターです。顔・髪型・服・色を変えずにそのまま使ってください。上の構図で指定した位置に、文字と重ならないように置いてください。"+(A.charNote.trim()?"\nキャラクターの補足："+A.charNote.trim():"")+"\n";
+  return t.trim()}
 
 /* ---------- parsers ---------- */
 function clean(t){return String(t||"").replace(/\*\*/g,"").replace(/^(\s*)\*\s+/gm,"$1・")}
@@ -599,7 +624,17 @@ function checkFacts(){return run(async function(){
 function makePromo(fresh){return run(async function(){
   if(!S.article.trim()){toast("先に本文を作ってください");toStep(4);return}
   var r=await generate(pPromo(),{fresh:fresh,label:"告知投稿とサムネ用プロンプトを作っています…"});
-  S.promo=parsePromo(clean(r.text));toStep(5);
+  var pr=parsePromo(clean(r.text));S.promo=pr.slice(0,3);if(pr[3])S.thumb=pr[3];toStep(5);
+})}
+function analyzeThumb(){return run(async function(){
+  var files=$("thumbRef").files;if(!files||!files.length){toast("先に、参考にしたいサムネの画像を選んでください");return}
+  var r=await generate(pThumbStyle(),{fresh:true,images:files,note:"この指示文と一緒に、参考にしたいサムネの画像をClaudeに添付して送信してください。",label:"参考画像を読み取っています…"});
+  A.thumbStyle=clean(r.text).trim();toast("デザインの型を保存しました。「この型でサムネ用プロンプトを作る」を押してください");
+})}
+function remakeThumb(){return run(async function(){
+  if(!S.article.trim()){toast("先に本文を作ってください");toStep(4);return}
+  var r=await generate(pThumb(),{fresh:true,onText:function(t){$("prD").value=clean(t)},label:"サムネ用プロンプトを作っています…"});
+  S.thumb=clean(r.text).trim();
 })}
 function analyze(it){return run(async function(){
   if(!it.body||!it.body.trim()){toast("先に記事の本文を貼ってください");return}
@@ -685,12 +720,18 @@ function render(){
   $("undo").disabled=!S.prev;$("continueBtn").hidden=!S.truncated;
   // promo
   $("promoWrap").hidden=!S.promo;$("prEmpty").hidden=!!S.promo;
-  if(S.promo)["prA","prB","prC","prD"].forEach(function(id,i){if($(id).value!==(S.promo[i]||""))$(id).value=S.promo[i]||""});
-  $("useChar").checked=A.useChar;
-  $("charInfo").textContent=A.useChar?"コピーすると、末尾に「添付した画像のキャラクターをそのまま使う」という指示が自動で足されます。":"";
-  var how=$("howto");how.textContent="";
-  (A.useChar?["ChatGPTで新しいチャットを開く","先に、自分のキャラクターの画像を添付する（クリップのマークから）","「プロンプトをコピー」を押して、同じメッセージに貼って送信する","できた画像を見て、下の頼み方で直してもらう"]
-           :["ChatGPTで新しいチャットを開く","「プロンプトをコピー」を押して、貼って送信する","できた画像を見て、下の頼み方で直してもらう"]).forEach(function(t){how.appendChild(el("li",null,t))});
+  if(S.promo)["prA","prB","prC"].forEach(function(id,i){if($(id).value!==(S.promo[i]||""))$(id).value=S.promo[i]||""});
+  if($("prD").value!==(S.thumb||""))$("prD").value=S.thumb||"";
+  if($("thumbStyle").value!==A.thumbStyle)$("thumbStyle").value=A.thumbStyle;
+  $("useRefImg").checked=A.useRefImg;$("useChar").checked=A.useChar;
+  $("charInfo").textContent=(A.useRefImg||A.useChar)?"コピーすると、末尾に「添付した画像の使い方」の指示が自動で足されます。":"";
+  var how=$("howto");how.textContent="";var hs=["ChatGPTで新しいチャットを開く"];
+  if(A.useRefImg&&A.useChar)hs.push("先に画像を2枚添付する。1枚目に参考にしたいサムネ、2枚目に自分のキャラクター（この順番で）");
+  else if(A.useRefImg)hs.push("先に、参考にしたいサムネの画像を添付する（クリップや＋のマークから）");
+  else if(A.useChar)hs.push("先に、自分のキャラクターの画像を添付する（クリップや＋のマークから）");
+  hs.push((A.useRefImg||A.useChar)?"「プロンプトをコピー」を押して、同じメッセージに貼って送信する":"「プロンプトをコピー」を押して、貼って送信する");
+  hs.push("できた画像を見て、下の頼み方で直してもらう");
+  hs.forEach(function(t){how.appendChild(el("li",null,t))});
   // account
   var map={acName:"name",acReader:"reader",acGoal:"goal",acPosts:"posts",acChar:"charNote"};
   for(var id in map){if($(id).value!==A[map[id]])$(id).value=A[map[id]]}
@@ -704,7 +745,7 @@ $("clearExample").addEventListener("click",function(){["theme","reader","memo","
 ["theme","reader","memo"].forEach(function(k){$(k).addEventListener("change",function(){if(S.isExample&&S[k]!==EXAMPLE[k]){S.isExample=false;save();render()}})});
 document.addEventListener("click",function(e){
   var v=e.target.closest("[data-view]");if(v){go(v.dataset.view);return}
-  var c=e.target.closest("[data-copy]");if(c){var t=$(c.dataset.copy).value;if(c.dataset.copy==="prD"&&A.useChar)t=t.trim()+"\n\n"+charBlock();if(!t.trim()){toast("まだ中身がありません");return}copy(t)}
+  var c=e.target.closest("[data-copy]");if(c){var t=$(c.dataset.copy).value;if(c.dataset.copy==="prD"&&t.trim()&&attachBlock())t=t.trim()+"\n\n"+attachBlock();if(!t.trim()){toast("まだ中身がありません");return}copy(t)}
 });
 $("acctSel").addEventListener("change",function(){if(busy){$("acctSel").value=A.id;return}pickAccount($("acctSel").value);openItem=null;save();render();toast("「"+A.name+"」に切り替えました")});
 $("goQuestions").addEventListener("click",function(){askQuestions(false)});
@@ -731,7 +772,12 @@ $("keep").addEventListener("click",function(){
 });
 $("goPromo").addEventListener("click",function(){makePromo(false)});
 $("rePromo").addEventListener("click",function(){makePromo(true)});
-["prA","prB","prC","prD"].forEach(function(id,i){$(id).addEventListener("input",function(){if(S.promo){S.promo[i]=$(id).value;save()}})});
+["prA","prB","prC"].forEach(function(id,i){$(id).addEventListener("input",function(){if(S.promo){S.promo[i]=$(id).value;save()}})});
+$("prD").addEventListener("input",function(){if(busy)return;S.thumb=$("prD").value;save()});
+$("thumbStyle").addEventListener("input",function(){A.thumbStyle=$("thumbStyle").value;save()});
+$("thumbAnalyze").addEventListener("click",analyzeThumb);
+$("thumbRemake").addEventListener("click",remakeThumb);
+$("useRefImg").addEventListener("change",function(){A.useRefImg=$("useRefImg").checked;save();render()});
 $("useChar").addEventListener("change",function(){A.useChar=$("useChar").checked;save();render()});
 $("resetAll").addEventListener("click",function(){armed($("resetAll"),"もう一度押すと、いまの下書きを消します","最初から新しい記事を作る",function(){A.draft=newDraft(A,false);S=A.draft;go(1)})});
 
