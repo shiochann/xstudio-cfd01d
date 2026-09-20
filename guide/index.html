@@ -80,6 +80,14 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 .xas .flow b { display: block; font-size: 18px; line-height: 1.6; margin-bottom: 4px; }
 .xas .flow p { margin: 0; font-size: 15px; color: #333333; }
 .xas .flow .mini { display: inline-block; background: var(--pale); border-radius: 999px; padding: 0 12px; font-size: 13px; font-weight: 700; margin: 2px 2px 2px 0; }
+.xas .push { margin: 22px 0 0; font-size: 15px; }
+.xas .push b { color: var(--blue); }
+.xas .phone { background: var(--blue); color: #FFFFFF; border-radius: 8px; padding: 28px 30px; margin: 26px 0 0; }
+.xas .phone h3 { margin: 0 0 8px; font-size: 20px; }
+.xas .phone p { margin: 0 0 12px; }
+.xas .phone ol { margin: 0 0 14px; padding-left: 1.4em; font-weight: 700; }
+.xas .phone li { margin-bottom: 4px; }
+.xas .phone .sub { font-size: 14px; margin: 0; opacity: .95; }
 .xas .loop { background: var(--pale); border-radius: 8px; padding: 22px 26px; margin: 26px 0 0; font-weight: 700; }
 .xas .loop small { display: block; font-weight: 500; font-size: 14px; margin-top: 4px; }
 .xas .notes { margin: 0; padding-left: 1.3em; }
@@ -133,6 +141,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
           <a class="pill main big" href="https://claude.ai/artifact/5vsqqg2bg9XwcMS2yXQJwC" target="_blank" rel="noopener">X記事スタジオを開く</a>
           <a class="pill big" href="#howto">使い方を先に読む</a>
         </div>
+        <p class="push"><b>導入はパソコンで1回だけ。</b>あとはスマホからでも使えます。</p>
       </div>
       <div class="mock">
         <div class="screen" id="tour">
@@ -201,7 +210,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
     <div class="wrap">
       <h2 class="head"><span class="en">FEATURE</span><span class="jp">できること</span></h2>
       <ul class="tags">
-        <li>体験を引き出す追加質問</li><li>切り口の違う構成を3案</li><li>本文の下書き</li><li>選んだ部分だけ直す</li><li>自分の口調に寄せる</li><li>作り話が混ざっていないか確認</li><li>告知投稿・ツリー・別角度の投稿</li><li>参考サムネの読み取り</li><li>サムネ用プロンプト（キャラ画像OK）</li><li>複数アカウントの切り替え</li><li>参考にする記事の登録</li><li>伸びた記事の保管庫</li><li>バックアップと引っ越し</li>
+        <li>体験を引き出す追加質問</li><li>切り口の違う構成を3案</li><li>本文の下書き</li><li>選んだ部分だけ直す</li><li>自分の口調に寄せる</li><li>作り話が混ざっていないか確認</li><li>告知投稿・ツリー・別角度の投稿</li><li>参考サムネの読み取り</li><li>サムネ用プロンプト（キャラ画像OK）</li><li>複数アカウントの切り替え</li><li>参考にする記事の登録</li><li>伸びた記事の保管庫</li><li>バックアップと引っ越し</li><li>導入後はスマホでも使える</li>
       </ul>
     </div>
   </section>
@@ -212,7 +221,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
       <div class="needs">
         <div class="card"><b>Claudeのアカウント</b><span>ツールはあなたのClaudeの中で動き、文章づくりにはあなたのClaudeの利用枠を使います。無料プランでも使えますが、1日に使える回数には上限があります。</span></div>
         <div class="card"><b>ChatGPTのアカウント</b><span>サムネを作りたい人だけ。画像を作れる回数は、ご自身のプランによって変わります。</span></div>
-        <div class="card"><b>いつものブラウザ</b><span>インストールはいりません。最初に1回だけ「複製」の操作があるので、初回はパソコンがおすすめです。</span></div>
+        <div class="card"><b>パソコン（最初の1回だけ）</b><span>インストールはいりません。最初の導入（複製とピン留め）だけパソコンでやっておけば、そのあとはスマホのClaudeからも開いて使えます。</span></div>
       </div>
     </div>
   </section>
@@ -231,6 +240,16 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
         <li><span class="n">08</span><div><b>記事をコピーして、Xの記事に貼る</b><p>「記事をコピー」を押して、Xの記事の編集画面に貼り付けます。反応がよかった記事は「保管庫に入れる」で取っておけます。</p></div></li>
         <li><span class="n">09</span><div><b>サムネを作る</b><p>最後の画面で、参考にしたいサムネの画像を選んで「参考画像からデザインの型を読み取る」→「この型でサムネ用プロンプトを作る」。構図や配色まで具体的に書かれたプロンプトが出てきます（型はアカウントに保存されるので、次の記事からは選び直さなくてOK）。できたプロンプトをコピーしてChatGPTに貼るとき、先に画像を添付しておくと仕上がりがいちばん近くなります。1枚目に参考にしたいサムネ、2枚目に自分のキャラクター、そのあと同じメッセージにプロンプトを貼って送信します。</p><figure class="shot"><img src="img/09-chatgpt.jpg" alt="ChatGPTの入力欄。キャラクターの画像を添付し、その下にプロンプトを貼っている" loading="lazy"><figcaption>ChatGPTの入力欄。画像を添付して、同じメッセージにプロンプトを貼る</figcaption></figure></div></li>
       </ol>
+      <div class="phone">
+        <h3>スマホで使うとき</h3>
+        <p>導入（手順01〜03）をパソコンで済ませておけば、あとはスマホだけで記事が作れます。移動中にメモを入れて、質問に答えて、本文まで。</p>
+        <ol>
+          <li>スマホでClaudeを開いて、パソコンと同じアカウントでログインする（アプリでもブラウザでもOK）</li>
+          <li>メニューの「Artifacts」を開く。ピン留めしてあれば「ピン留め済み」にすぐ出てきます</li>
+          <li>自分のコピー（名前に (Copy) が付いているほう）を開く</li>
+        </ol>
+        <p class="sub">下書きやアカウント設定は端末ごとに別々です。パソコンで入れた過去投稿や参考記事をスマホでも使いたいときは、パソコンの「アカウント設定」→「バックアップを文字でコピー」を自分あてのメモやLINEに送り、スマホ側の「コピーしたバックアップを貼って読み込む」に貼ってください。1回やれば、スマホにも同じ設定が入ります。</p>
+      </div>
       <p class="loop">複製がうまくいかないときは、コピペで使える予備のページがあります。<small><a href="https://shiochann.github.io/xstudio-cfd01d/" target="_blank" rel="noopener">予備のページを開く</a>　指示文をコピーして自分のClaudeに貼り、返事を貼り戻す方式です。機能は同じです。</small></p>
     </div>
   </section>
@@ -273,7 +292,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
       <h2 class="head"><span class="en">FAQ</span><span class="jp">よくある質問</span></h2>
       <details><summary>上の表示が「コピペモード」のままです</summary><p>複製する前のページを開いているか、Claudeにログインしていない状態です。ログインしたうえで、左上のツール名から「複製」してできた自分のコピーを開いてください。それでも変わらないときは、予備のページ（コピペ方式）でも同じことができます。</p></details>
       <details><summary>Claudeの利用枠はどのくらい使いますか</summary><p>1記事で、質問・構成・本文・告知の4回ほどClaudeを呼びます。ふだんのチャットと同じ扱いで、あなたのプランの上限の範囲で使えます。上限に当たったら、時間をおいて続きから再開できます（下書きは残っています）。</p></details>
-      <details><summary>スマホだけでも使えますか</summary><p>使えますが、最初の「複製」と長い記事の編集は、パソコンのほうが楽です。</p></details>
+      <details><summary>スマホでも使えますか</summary><p>使えます。最初の導入（複製とピン留め）だけパソコンでやっておけば、あとはスマホのClaudeで「Artifacts」から自分のコピーを開くだけです。下書きや設定は端末ごとに別々なので、パソコンの設定を使いたいときはバックアップで移してください。長い記事を大きく書き直すときは、パソコンのほうが楽です。</p></details>
       <details><summary>ほかの人と同時に使うと、重くなったり使えなくなったりしますか</summary><p>なりません。ツールは開いた人のブラウザの中だけで動いていて、ほかの人の利用とは完全に別です。</p></details>
       <details><summary>参考にした記事の文章が、そのまま自分の記事に混ざりませんか</summary><p>ツールが保存するのは構成の骨組みだけで、指示文にも「元記事の文章・体験・数字は使わない」と入れてあります。それでも公開前に、自分の目で一度読み直してください。</p></details>
       <details><summary>サムネに入れた日本語が崩れます</summary><p>画像生成では起きやすい現象です。ツールの最後の画面に「直してほしいときの頼み方」を載せているので、そのままChatGPTに送ってください。</p></details>
