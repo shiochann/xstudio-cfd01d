@@ -40,17 +40,17 @@ body{background:var(--ground);color:var(--ink);font-family:var(--body);font-weig
 .chip[data-mode="manual"]::before{background:var(--accent)}
 
 .shell{display:grid;grid-template-columns:210px minmax(0,1fr);gap:32px;align-items:start}
-.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:flex;flex-direction:column;gap:6px}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:flex;flex-direction:column;gap:6px;max-height:calc(100vh - 32px);overflow-y:auto;padding-bottom:4px}
 .rail :is(ol,ul){list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
 .rail ol{counter-reset:s}
-.rail button{width:100%;display:flex;gap:12px;align-items:baseline;text-align:left;background:none;border:0;border-radius:999px;padding:9px 16px;color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.rail button{width:100%;display:flex;gap:12px;align-items:baseline;text-align:left;background:none;border:0;border-radius:999px;padding:7px 16px;color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
 .rail ol button{counter-increment:s}
 .rail ol button::before{content:"0" counter(s);font-family:var(--en);font-weight:500;font-size:13px;letter-spacing:.08em;color:var(--accent)}
 .rail button[aria-current]{background:var(--accent);color:var(--accent-ink)}
 .rail ol button[aria-current]::before{color:var(--accent-ink)}
 .rail ol button[data-done="1"]:not([aria-current])::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);margin-left:auto;align-self:center}
 .rail button:hover:not([aria-current]){background:var(--accent-soft);color:var(--soft-ink)}
-.railcap{margin:18px 0 2px;padding-left:16px;font-family:var(--en);font-size:12px;color:var(--accent);letter-spacing:.2em}
+.railcap{margin:12px 0 2px;padding-left:16px;font-family:var(--en);font-size:12px;color:var(--accent);letter-spacing:.2em}
 
 .panel{background:var(--surface);border-radius:8px;padding:32px;display:flex;flex-direction:column;gap:20px}
 .panel h2{margin:0 0 4px;display:flex;flex-direction:column;gap:6px;color:var(--accent)}
@@ -137,9 +137,10 @@ a{color:var(--accent);font-weight:700}
 
 @media (max-width:760px){
   .shell{grid-template-columns:minmax(0,1fr);gap:16px}
-  .rail{position:static;overflow-x:auto;flex-direction:row;gap:4px;padding-bottom:4px}
-  .rail :is(ol,ul){flex-direction:row;gap:4px;min-width:max-content}
-  .railcap{display:none}
+  .rail{position:static;max-height:none;overflow:visible;gap:6px}
+  .rail :is(ol,ul){flex-direction:row;flex-wrap:wrap;gap:6px}
+  .rail button{width:auto}
+  .railcap{margin:6px 0 0;padding-left:4px}
   .rail button{padding:7px 14px;white-space:nowrap;background:var(--surface)}
   .panel{padding:22px 16px}
   .panel h2 .en{font-size:26px}
@@ -175,8 +176,8 @@ a{color:var(--accent);font-weight:700}
       <p class="railcap">TOOLS</p>
       <ul>
         <li><button type="button" data-view="acct">アカウント設定</button></li>
-        <li><button type="button" data-view="refs">参考にする記事</button></li>
-        <li><button type="button" data-view="lib">伸びた記事の保管庫</button></li>
+        <li><button type="button" data-view="refs" data-label="参考にする記事">参考にする記事</button></li>
+        <li><button type="button" data-view="lib" data-label="伸びた記事の保管庫">伸びた記事の保管庫</button></li>
       </ul>
     </nav>
 
@@ -323,15 +324,15 @@ a{color:var(--accent);font-weight:700}
           <button class="btn quiet" id="delAcct" type="button">このアカウントを削除</button></div>
 
         <h3>BACKUP <small>バックアップと引っ越し</small></h3>
-        <p class="hint">入力した内容は、この端末のこのブラウザにだけ保存されています。別の端末で使うときや、消えると困るときは、ファイルに保存しておいてください。</p>
+        <p class="hint">入力した内容は、この端末のこのブラウザにだけ保存されています。別の端末で使うときや、消えると困るときは、バックアップを取って、メモ帳などに保存しておいてください。</p>
         <div class="btns">
           <button class="btn ghost" id="exportFile" type="button">全アカウントをファイルに保存</button>
           <button class="btn quiet" id="exportCopy" type="button">バックアップを文字でコピー</button>
         </div>
-        <div class="field"><label for="importFile">バックアップを読み込む</label>
+        <div class="field" id="importFileField"><label for="importFile">バックアップを読み込む</label>
           <input type="file" id="importFile" accept=".json,application/json">
           <p class="hint">同じアカウントは上書きされ、ないアカウントは追加されます。</p></div>
-        <div class="field"><label for="importText">または、コピーしたバックアップを貼る</label>
+        <div class="field"><label for="importText">コピーしたバックアップを貼って読み込む</label>
           <textarea id="importText" rows="2" placeholder="コピーした文字をここに貼る"></textarea>
           <div class="btns"><button class="btn quiet" id="importBtn" type="button">貼った内容を読み込む</button></div></div>
       </section>
@@ -420,6 +421,7 @@ function renderEngine(){
 async function detect(){
   try{if(window.claude&&typeof window.claude.use==="function"){sampleFn=await window.claude.use("sample")}}catch(e){sampleFn=null}
   engine=(sampleFn&&!DB.forceManual)?"ai":"manual";renderEngine();
+  if(window.claude){$("exportFile").hidden=true;$("importFileField").hidden=true}
 }
 $("engineToggle").addEventListener("click",function(){DB.forceManual=engine==="ai";engine=DB.forceManual?"manual":"ai";save();renderEngine()});
 
@@ -638,6 +640,7 @@ function render(){
   VIEWS.forEach(function(v){$("view"+v).hidden=view!==v});
   var done={1:!!(S.theme.trim()&&S.memo.trim()&&!S.isExample),2:S.questions.some(function(x){return x.a&&x.a.trim()}),3:S.pick>=0&&!!S.outlineText.trim(),4:!!S.article.trim(),5:!!S.promo};
   Array.prototype.forEach.call($("nav").querySelectorAll("button"),function(b){var v=b.dataset.view;if(v===view)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");if(done[v]!=null)b.dataset.done=done[v]?"1":"0"});
+  ["refs","lib"].forEach(function(v){var b=$("nav").querySelector('[data-view="'+v+'"]');var n=A.items.filter(function(x){return x.kind===(v==="refs"?"other":"mine")}).length;b.textContent=b.dataset.label+(n?"（"+n+"）":"")});
   // account select
   var sel=$("acctSel");sel.textContent="";DB.accounts.forEach(function(a){var o=el("option",null,a.name||"（名前なし）");o.value=a.id;sel.appendChild(o)});sel.value=A.id;
   // step 1
