@@ -93,6 +93,12 @@ textarea{resize:vertical;min-height:92px}
 .qlist .q{font-weight:700;display:flex;gap:10px;align-items:baseline}
 .qlist .q::before{content:"Q" counter(q);font-family:var(--en);font-weight:500;font-size:19px;color:var(--peach);flex:none}
 
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.mode{text-align:left;font:inherit;color:var(--ink);background:var(--sunk);border:2px solid transparent;border-radius:18px;padding:14px 16px;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.mode[aria-pressed="true"]{border-color:var(--pen)}
+.mode b{font-size:15px}.mode span{font-size:12px;color:var(--ink2)}
+.planbox{background:var(--sunk);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.plan .aim{font-size:13px;color:var(--ink);font-weight:500}
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
 .plan{text-align:left;font:inherit;color:var(--ink);background:var(--sunk);border:2px solid transparent;border-radius:18px;padding:18px;cursor:pointer;display:flex;flex-direction:column;gap:8px}
 .plan[aria-pressed="true"]{border-color:var(--pen)}
@@ -187,7 +193,24 @@ a{color:var(--accent);font-weight:700}
       <!-- 1 -->
       <section class="panel" id="view1">
         <h2><span class="en">Material</span><span class="jp">まず、記事の素材を入れる</span></h2>
-        <p class="lead">うまく書こうとしなくて大丈夫です。箇条書きのメモで十分。ここに書いた体験だけを使って記事を作ります。</p>
+        <p class="lead">記事の作り方は3つ。自分でテーマを入れるか、伸びた記事の分析から企画するか、ジャンルの知識からおまかせで企画するか。どれを選んでも、最後は下の欄に入ります。</p>
+        <div class="modes" id="modes">
+          <button type="button" class="mode" data-mode="self" aria-pressed="true"><b>自分でテーマを入れる</b><span>書きたいことが決まっている</span></button>
+          <button type="button" class="mode" data-mode="grow"><b>伸びた記事から企画する</b><span>保管庫の分析をもとに、次の一手を出す</span></button>
+          <button type="button" class="mode" data-mode="auto"><b>ジャンルの知識からおまかせ</b><span>ドメインファイルから記事の中身を決める</span></button>
+        </div>
+        <div class="planbox" id="planGrow" hidden>
+          <p class="hint">保管庫で「伸びた理由を分析する」をした記事をもとに、次に書く記事の企画を3案出します。案を選ぶと、下の欄に入ります。</p>
+          <div class="btns"><button class="btn" id="planGrowBtn" type="button" data-gen>伸びた記事から企画を3案もらう</button>
+            <button class="btn link" type="button" data-view="lib">保管庫を開く</button></div>
+        </div>
+        <div class="planbox" id="planAuto" hidden>
+          <p class="hint">アカウント設定の「ジャンルの知識（ドメインファイル）」から、記事にできそうな内容を選んで企画を3案出します。保管庫に分析済みの記事があれば、それも加味します。</p>
+          <div class="btns"><button class="btn" id="planAutoBtn" type="button" data-gen>おまかせで企画を3案もらう</button>
+            <button class="btn link" type="button" data-view="acct">ジャンルの知識を入れる</button></div>
+        </div>
+        <div class="plans" id="planList" hidden></div>
+        <p class="note" id="planNote" hidden></p>
         <div class="example" id="exampleBanner" hidden>
           <span>いま入っているのは<strong>入力例</strong>です。流れを試したあと、自分の内容に書き換えてください。</span>
           <button class="btn quiet" id="clearExample" type="button">例を消して自分の内容を書く</button>
@@ -329,6 +352,10 @@ a{color:var(--accent);font-weight:700}
         <div class="field"><label for="acPosts">自分の過去投稿（口調の見本）</label>
           <textarea id="acPosts" rows="7" placeholder="自分らしいと思う投稿を3〜10本、そのまま貼る"></textarea>
           <p class="hint">話し方だけを参考にします。このアカウントで書くすべての記事に使われます。</p></div>
+        <div class="field"><label for="acDomain">ジャンルの知識（ドメインファイル・おまかせ企画に使います）</label>
+          <textarea id="acDomain" rows="8" placeholder="自分のジャンルについて知っていること、読者からよく聞かれる悩み、自分の実績や経験、伝えたい主張。箇条書きでOK"></textarea>
+          <input type="file" id="acDomainFile" accept=".md,.txt,text/plain,text/markdown" multiple>
+          <p class="hint">.md や .txt のファイルを選ぶと、中身がここに追記されます。ここに書いてあることだけを使って企画するので、実績や数字は正確に。</p></div>
         <div class="field"><label for="acChar">キャラクターの説明（サムネ用・なくてもOK）</label>
           <textarea id="acChar" rows="3" placeholder="例：水色の髪の女の子のイラスト。やわらかい雰囲気。いつも右下に置いている"></textarea></div>
         <div class="btns"><button class="btn ghost" id="addAcct" type="button">アカウントを追加</button>
@@ -403,14 +430,15 @@ memo:"・Threadsの投稿をそのままXに貼ったら、ほとんど反応が
 posts:"正直、Xってちょっと怖いと思ってた。\nでもやってみたら、Threadsとは読まれ方が違う感じがする。\nまだ途中だけど、分かったことから書いていくね"};
 var FIELDS=["theme","reader","type","goal","length","product","memo"];
 
-function newDraft(ac,example){return {step:1,isExample:!!example,theme:example?EXAMPLE.theme:"",reader:example?EXAMPLE.reader:(ac.reader||""),type:"story",goal:ac.goal||"follow",length:"std",product:"",memo:example?EXAMPLE.memo:"",refIds:[],questions:[],outlines:[],pick:-1,outlineText:"",article:"",prev:"",truncated:false,promo:null,thumb:""}}
-function newAccount(name,example){var ac={id:uid(),name:name,reader:"",goal:"follow",posts:example?EXAMPLE.posts:"",charNote:"",useChar:false,thumbStyle:"",useRefImg:false,items:[]};ac.draft=newDraft(ac,example);return ac}
+function newDraft(ac,example){return {step:1,isExample:!!example,theme:example?EXAMPLE.theme:"",reader:example?EXAMPLE.reader:(ac.reader||""),type:"story",goal:ac.goal||"follow",length:"std",product:"",memo:example?EXAMPLE.memo:"",refIds:[],questions:[],outlines:[],pick:-1,outlineText:"",article:"",prev:"",truncated:false,promo:null,thumb:"",mode:"self",plans:[],planPick:-1,planNote:""}}
+function newAccount(name,example){var ac={id:uid(),name:name,reader:"",goal:"follow",posts:example?EXAMPLE.posts:"",charNote:"",useChar:false,thumbStyle:"",useRefImg:false,domain:"",items:[]};ac.draft=newDraft(ac,example);return ac}
 function fixAccount(ac){
   if(!ac||typeof ac!=="object")return null;
-  ac.id=ac.id||uid();ac.name=ac.name||"アカウント";ac.reader=ac.reader||"";ac.goal=ac.goal||"follow";ac.posts=ac.posts||"";ac.charNote=ac.charNote||"";ac.useChar=!!ac.useChar;ac.thumbStyle=ac.thumbStyle||"";ac.useRefImg=!!ac.useRefImg;
+  ac.id=ac.id||uid();ac.name=ac.name||"アカウント";ac.reader=ac.reader||"";ac.goal=ac.goal||"follow";ac.posts=ac.posts||"";ac.charNote=ac.charNote||"";ac.useChar=!!ac.useChar;ac.thumbStyle=ac.thumbStyle||"";ac.useRefImg=!!ac.useRefImg;ac.domain=ac.domain||"";
   ac.items=Array.isArray(ac.items)?ac.items.filter(function(x){return x&&x.id}):[];
   var d=newDraft(ac,false);if(ac.draft&&typeof ac.draft==="object"){for(var k in ac.draft)d[k]=ac.draft[k]}
   if(!d.thumb&&Array.isArray(d.promo)&&d.promo[3])d.thumb=d.promo[3];
+  if(!Array.isArray(d.plans))d.plans=[];if(!d.mode)d.mode="self";if(typeof d.planPick!=="number")d.planPick=-1;d.planNote=d.planNote||"";
   if(!Array.isArray(d.refIds))d.refIds=[];if(!Array.isArray(d.questions))d.questions=[];if(!Array.isArray(d.outlines))d.outlines=[];
   ac.draft=d;return ac;
 }
@@ -490,6 +518,10 @@ function toStep(n){S.step=n;view=String(n)}
 var GOAL={follow:"フォローしてもらう",affiliate:"紹介した商品を見てもらう（アフィリエイトリンクあり）",line:"LINE・オープンチャットに来てもらう",note:"noteや別の記事を読んでもらう"};
 var LEN={short:"2,000字前後",std:"4,000字前後",long:"7,000字前後"};
 function pickedRefs(){return A.items.filter(function(x){return x.skeleton&&x.skeleton.trim()&&S.refIds.indexOf(x.id)>=0})}
+function titlesBlock(){
+  var ts=A.items.filter(function(x){return x.title&&x.title.trim()}).map(function(x){return "- "+x.title.trim()+(x.kind==="mine"?"（自分の記事）":"")});
+  return ts.length?"# 参考タイトル（タイトルの作り方＝要素の並べ方だけを借りる。言葉や数字はそのまま使わない）\n"+ts.join("\n")+"\n":"";
+}
 function refsBlock(){
   var rs=pickedRefs();if(!rs.length)return "";
   return "# 参考にする構成（ほかの記事から取り出した骨組み。ブロックの順番と役割だけを借りる。元記事の文章・言い回し・体験・数字は一切使わない）\n"+
@@ -513,13 +545,13 @@ var RULES="# 守ること\n"+
 "6. アフィリエイトリンクを貼る前提の記事は、冒頭付近に「PR」と明記する。\n"+
 "7. アスタリスク2つ（**）で文字を囲む太字の記法を、絶対に使わない。「*」の記号そのものを出力に1つも入れない。強調したいところは、言葉の選び方と改行で見せる。\n";
 
-function pSkeleton(it){return "下の記事の「構成の骨組み」だけを取り出してください。目的は、別の書き手が自分の体験で記事を書くときの型にすることです。\n\n# 取り出すもの\n- タイトルの型（どんな要素を、どの順で並べているか）\n- 冒頭の入り方\n- ブロックの順番と、それぞれの役割、おおよその分量（全体に対する割合）\n- 見出しの付け方のくせ\n- 読者を最後まで読ませるための仕掛け\n- 締め方と、導線の置き方\n\n# 守ること\n- 元記事の文章・言い回し・体験談・数字・固有名詞は書き写さない。役割の説明に置き換える\n- 決まり文句はそのまま型に入れず、「どんな働きをする一文か」で書く\n\n# 出力の形\n箇条書きで15行以内。前置きや解説は書かない。\n\n# 記事\n"+(it.title?"タイトル: "+it.title+"\n":"")+it.body.trim()}
+function pSkeleton(it){return "下の記事の「構成の骨組み」だけを取り出してください。目的は、別の書き手が自分の体験で記事を書くときの型にすることです。\n\n# 取り出すもの\n- 1行目は必ず「タイトルの型: 」で始め、タイトルがどんな要素（数字・括弧・約束・対象読者・持ち帰れる物など）をどの順で並べているかを書く\n- 冒頭の入り方\n- ブロックの順番と、それぞれの役割、おおよその分量（全体に対する割合）\n- 見出しの付け方のくせ\n- 読者を最後まで読ませるための仕掛け\n- 締め方と、導線の置き方\n\n# 守ること\n- 元記事の文章・言い回し・体験談・数字・固有名詞は書き写さない。役割の説明に置き換える\n- 決まり文句はそのまま型に入れず、「どんな働きをする一文か」で書く\n\n# 出力の形\n箇条書きで15行以内。前置きや解説は書かない。\n\n# 記事\n"+(it.title?"タイトル: "+it.title+"\n":"")+it.body.trim()}
 
 function pQuestions(){return "あなたは、書き手の体験を引き出す編集者です。下の素材でXの記事を書く前に、記事を具体的にするために本人に聞いておきたいことを5つ質問してください。\n\n"+materials()+
 (refsBlock()?"\n"+refsBlock()+"（この構成で書く予定。構成を埋めるのに足りない話を優先して聞く）\n":"")+
 "\n# 質問の作り方\n- 一般論ではなく、この人にしか答えられない体験・場面・数字・失敗・気持ちの変化を聞く\n- 素材にすでに書いてあることは聞かない\n- うまくいかなかったこと、まだ分かっていないことを聞く質問を1つ入れる\n- スマホで1〜3行で答えられる聞き方にする\n\n# 出力の形\n1行に1つ、「Q1: 質問文」の形で5行だけ。前置きや解説は書かない。"}
 
-function pOutlines(){var rb=refsBlock();return "あなたはXの記事（X Articles）の編集者です。下の素材から、切り口の違うタイトルと構成を3案作ってください。\n\n"+materials()+"\n"+(rb?rb+"\n":"")+RULES+
+function pOutlines(){var rb=refsBlock(),tb=titlesBlock();return "あなたはXの記事（X Articles）の編集者です。下の素材から、切り口の違うタイトルと構成を3案作ってください。\n\n"+materials()+"\n"+(rb?rb+"\n":"")+(tb?tb+"\n":"")+RULES+
 "\n# 構成の考え方\n- タイトルは、主題と、読者が持ち帰れる物の形（チェックリスト、手順、比較など）が分かるようにする。ただし本文で実際に渡せる物だけを約束する\n"+
 (rb?"- 3案とも参考構成の骨組みに沿わせる。ブロックの順番と役割を借り、中身はすべて素材から入れる。どの参考構成を土台にしたかを「切り口」に書く\n- 素材で埋められないブロックは、無理に作らず外すか【要追記】にする\n":"- 3案は切り口を変える（例：失敗から入る／手順に絞る／思い込みをひっくり返す）。言い回しを変えただけの案は出さない\n")+
 "- 見出しは4〜7個。うまくいかなかったことや限界を自分から書く見出しを1つ含める\n\n# 出力の形（この形を厳守。前置きや解説は書かない）\n===案1===\nタイトル: …\n切り口: …（1行）\n見出し:\n- …\n- …\n===案2===\n（同じ形）\n===案3===\n（同じ形）"}
@@ -536,6 +568,16 @@ function pPromo(){return "下のXの記事を公開したあとに出す投稿�
 "# 作るもの\n1. 告知：記事への入口になる投稿を1本。140字以内。記事の中身を要約せず、読みたくなる1点だけを出す\n2. ツリー：3〜4投稿のツリー。投稿の間は空行で区切る。最後の投稿で記事に案内する\n3. 別角度：同じ記事を、1とは違う切り口（別の読者の悩み、別の場面）から紹介する投稿を1本\n4. サムネプロンプト：この記事の表紙画像を、ChatGPTの画像生成で作ってもらうための指示文\n"+thumbSpec()+"\n投稿の中で記事のURLを入れる場所は【記事URL】と書く。\n\n# 出力の形（この形を厳守）\n===告知===\n…\n===ツリー===\n…\n===別角度===\n…\n===サムネプロンプト===\n…"}
 function thumbSpec(){var st=A.thumbStyle.trim();return (st?"\n# サムネのデザインの型（参考にしたいサムネから読み取ったもの。サムネの指示文は、必ずこの型に沿わせる）\n"+st+"\n":"")+
 "\n# サムネの指示文の書き方\n- ChatGPTにそのまま貼れる完成形で書く。あいまいな形容（おしゃれに、いい感じに）を使わず、位置・大きさ・色を具体的に書く\n- 次の項目を、この順に埋める\n  画像サイズ：横長（5:2）\n  大きく入れる文字：12字以内の見出しを1つ。記事のいちばん強い1点を、読者の言葉で\n  小さく入れる文字：20字以内。なくてもよい\n  構図：文字・絵・余白の位置関係を、画面の左右上下と割合で"+(st?"（型のとおりに）":"")+"\n  配色：背景・大きい文字・小さい文字・差し色を、色名とカラーコードで"+(st?"（型のとおりに）":"")+"\n  文字の加工：太さ、書体の印象、縁取り・影・帯などの有無\n  飾り：入れるものと、入れないもの\n  文字の指定：日本語を一字も変えず正確に。ここに書いた文字以外の文字を画像に入れない\n- 末尾に「見出しの別案」を2つ添える\n- 記事に書かれていない実績や数字を、画像の文字に入れない\n- キャラクター・人物・添付画像については書かない（あとで別に足す）\n"}
+function pAnalyze(it){return "下は、書き手本人のXの記事で、反応がよかったものです。なぜ読まれたのかを分析してください。\n\n# 記事\n"+(it.title?"タイトル: "+it.title+"\n":"")+(it.meta?"メモ（インプ数など）: "+it.meta+"\n":"")+"\n"+(it.body||"").trim()+"\n\n# 見るところ\n- タイトル：何を約束しているか、数字・括弧・対象読者の入れ方\n- 冒頭3行：読者をどう止めたか\n- 構成：ブロックの順番と役割、どこで離脱を防いでいるか\n- 具体性：数字・固有名詞・場面がどう効いているか\n- 読者の感情：どの悩み・願望に刺さったか\n- 締めと導線\n\n# 出力の形\n「伸びた理由」を箇条書きで10行以内。空行をはさんで「次に活かせる型」を3行（この記事の焼き直しではなく、別のテーマにも転用できる形で）。前置きや解説は書かない。アスタリスク（*）の記号は使わない。"}
+function pPlan(mode){
+  var analyzed=A.items.filter(function(x){return x.kind==="mine"&&x.analysis&&x.analysis.trim()});
+  var head="あなたはXの記事（X Articles）の編集者です。下の情報から、書き手が次に書く記事の企画を3案作ってください。\n\n# 書き手について\n【アカウント】"+(A.name||"")+"\n【いつもの読者】"+(A.reader||S.reader||"未設定")+"\n【ゴール】"+GOAL[A.goal||S.goal]+"\n";
+  var an=analyzed.length?"\n# 伸びた記事の分析（本人の記事。これを次の企画に活かす）\n"+analyzed.map(function(x){return "## "+(x.title||"無題")+(x.meta?"（"+x.meta+"）":"")+"\n"+x.analysis.trim()}).join("\n\n")+"\n":"";
+  var dom=mode==="auto"?"\n# ジャンルの知識（本人が書いたドメインファイル。記事の中身はここにあることだけで組む）\n"+A.domain.trim().slice(0,8000)+"\n":"";
+  var done=A.items.filter(function(x){return x.kind==="mine"&&x.title}).map(function(x){return "- "+x.title}).join("\n");
+  return head+an+dom+"\n"+titlesBlock()+(done?"\n# すでに書いた記事（同じ内容の焼き直しにしない）\n"+done+"\n":"")+
+  "\n# 守ること\n- 本人が持っていない体験・実績・数字を作らない。「記事にしたい内容」は、上の情報にあることだけで組み、本人の体験が必要な箇所は【要追記：何を書くか】として残す\n- "+(mode==="grow"?"分析で分かった「次に活かせる型」を、別のテーマに転用する。同じ記事の言い換えにしない":"ジャンルの知識の中から、読者の悩みに直結して、本人にしか書けない切り口を選ぶ")+"\n- 3案は切り口を変える。タイトルは参考タイトルの作り方を借りつつ、本文で渡せるものだけを約束する\n- Xのアルゴリズムや伸び方を断定しない\n\n# 出力の形（この形を厳守。前置きや解説は書かない。アスタリスク（*）は使わない）\n===案1===\nタイトル: …\n読んでほしい相手: …\n狙い: …（1行。なぜ今この記事か）\n記事にしたい内容:\n- …（5〜8行。箇条書き。本人の体験が要るところは【要追記：…】）\n===案2===\n（同じ形）\n===案3===\n（同じ形）";
+}
 function pThumb(){return "下のXの記事の表紙画像（サムネイル）を、ChatGPTの画像生成で作ってもらうための指示文を書いてください。\n\n# 記事\n"+S.article+"\n"+thumbSpec()+"\n# 出力\n指示文だけを出力する。前置きや解説は付けない。アスタリスク（*）の記号は使わない。"}
 function pThumbStyle(){return "添付した画像は、参考にしたいサムネイル（記事の表紙画像）です。別の記事のサムネを同じ雰囲気で作るために、デザインの型だけを言葉で取り出してください。\n\n# 取り出すもの\n- 構図：文字・絵・余白の位置関係を、画面の左右上下と、おおよその割合で\n- 配色：背景・大きい文字・小さい文字・差し色を、色名とおおよそのカラーコードで\n- 文字：大きい文字と小さい文字がいくつあるか、1行の文字数の目安、太さ、書体の印象、縁取り・影・帯・傾きなどの加工\n- 飾り：吹き出し、矢印、枠、アイコン、光、集中線など。使っていないものは「なし」と書く\n- 人物やキャラクターの置き方：位置、大きさ、切り抜き方、視線の向き。いなければ「なし」\n- 全体の印象を一言で\n\n# 守ること\n- 画像に書かれている文章そのもの、ロゴ、写っている人物やキャラクターの見た目は書き写さない。どんなデザインかだけを書く\n- 複数枚あるときは共通点を型にして、違いは最後に「バリエーション」として1〜2行で添える\n\n# 出力の形\n箇条書きで12行以内。前置きや解説は書かない。アスタリスク（*）の記号は使わない。"}
 function attachBlock(){var r=A.useRefImg,c=A.useChar;if(!r&&!c)return "";var t="# 添付した画像について\n";
@@ -560,6 +602,15 @@ function parseOutlines(t){
   });
 }
 function outlineToText(o){return o.heads.length?"タイトル: "+o.title+"\n切り口: "+o.angle+"\n見出し:\n"+o.heads.map(function(h){return "- "+h}).join("\n"):o.raw}
+function parsePlans(t){
+  var chunks=t.split(/^\s*=+\s*案\s*\d+\s*=+\s*$/m).map(function(c){return c.trim()}).filter(Boolean);
+  if(!chunks.length)return [];
+  return chunks.slice(0,3).map(function(c){
+    var g=function(k){var m=c.match(new RegExp(k+"\\s*[:：]\\s*(.+)"));return m?m[1].trim():""};
+    var lines=[],on=false;c.split(/\n/).forEach(function(l){if(/記事にしたい内容/.test(l)){on=true;return}if(!on)return;var m=l.match(/^\s*(?:[-・]|\d+[\.．)])\s*(.+)$/);if(m)lines.push(m[1].trim())});
+    return {title:g("タイトル"),reader:g("読んでほしい相手"),aim:g("狙い"),lines:lines,raw:c};
+  });
+}
 function parsePromo(t){
   var keys=["告知","ツリー","別角度","サムネプロンプト"],r={},parts=t.split(/^\s*=+\s*(告知|ツリー|別角度|サムネプロンプト)\s*=+\s*$/m);
   for(var i=1;i<parts.length;i+=2)r[parts[i]]=(parts[i+1]||"").trim();
@@ -617,6 +668,26 @@ function makePromo(fresh){return run(async function(){
   var r=await generate(pPromo(),{fresh:fresh,label:"告知投稿とサムネ用プロンプトを作っています…"});
   var pr=parsePromo(clean(r.text));S.promo=pr.slice(0,3);if(pr[3])S.thumb=pr[3];toStep(5);
 })}
+function analyzeGrowth(it){return run(async function(){
+  if(!it.body||!it.body.trim()){toast("先に記事の本文を貼ってください");return}
+  openItem=it.id;
+  var r=await generate(pAnalyze(it),{fresh:true,label:"伸びた理由を分析しています…"});
+  it.analysis=clean(r.text).trim();toast("分析を保存しました。素材入力の「伸びた記事から企画する」で使えます");
+})}
+function makePlans(mode){return run(async function(){
+  if(mode==="grow"&&!A.items.some(function(x){return x.kind==="mine"&&x.analysis&&x.analysis.trim()})){toast("先に保管庫で、伸びた記事の「伸びた理由を分析する」を押してください");view="lib";return}
+  if(mode==="auto"&&!A.domain.trim()){toast("先にアカウント設定で「ジャンルの知識」を入れてください");view="acct";return}
+  var r=await generate(pPlan(mode),{fresh:true,label:"企画を考えています…"});
+  var ps=parsePlans(clean(r.text));if(!ps.length){toast("企画を読み取れませんでした。もう一度押してください");return}
+  S.plans=ps;S.planPick=-1;
+})}
+function pickPlan(i){var o=S.plans[i];if(!o)return;
+  S.planPick=i;S.theme=o.title||S.theme;if(o.reader)S.reader=o.reader;
+  S.memo=o.lines.length?o.lines.map(function(l){return "・"+l}).join("\n"):o.raw;
+  S.isExample=false;S.questions=[];S.outlines=[];S.pick=-1;S.outlineText="";
+  S.planNote="企画から入力しました"+(o.aim?"（狙い："+o.aim+"）":"")+"。【要追記】の部分に自分の体験を足してから、次へ進んでください。";
+  save();render();window.scrollTo(0,$("theme").offsetTop-40);
+}
 function analyzeThumb(){return run(async function(){
   var files=$("thumbRef").files;if(!files||!files.length){toast("先に、参考にしたいサムネの画像を選んでください");return}
   var r=await generate(pThumbStyle(),{fresh:true,images:files,note:"この指示文と一緒に、参考にしたいサムネの画像をClaudeに添付して送信してください。",label:"参考画像を読み取っています…"});
@@ -647,7 +718,9 @@ function renderItems(kind,box){
     var d=el("details","item");d.open=openItem===it.id;
     d.addEventListener("toggle",function(){if(d.open)openItem=it.id;else if(openItem===it.id)openItem=null});
     var s=el("summary"),ttl=el("span","ttl",it.title||"（タイトル未入力）"),tag=el("span","tag",it.skeleton&&it.skeleton.trim()?"構成あり":"構成まだ");
-    tag.dataset.on=it.skeleton&&it.skeleton.trim()?"1":"0";s.appendChild(ttl);s.appendChild(tag);d.appendChild(s);
+    tag.dataset.on=it.skeleton&&it.skeleton.trim()?"1":"0";s.appendChild(ttl);
+    if(kind==="mine"){var tg2=el("span","tag",it.analysis&&it.analysis.trim()?"分析済み":"分析まだ");tg2.dataset.on=it.analysis&&it.analysis.trim()?"1":"0";s.appendChild(tg2)}
+    s.appendChild(tag);d.appendChild(s);
     var inner=el("div","inner");
     function fld(label,key,multi,rows,ph){
       var f=el("div","field"),l=el("label",null,label),c=el(multi?"textarea":"input");
@@ -658,9 +731,11 @@ function renderItems(kind,box){
     fld("記事のタイトル","title",false);
     fld(kind==="other"?"書いた人・URL（出典）":"メモ（インプ数、公開日、記事のURLなど）","meta",false);
     fld("記事の本文","body",true,7,"記事の本文をそのまま貼る");
+    if(kind==="mine")fld("伸びた理由（分析結果。書き換えられます）","analysis",true,7,"「伸びた理由を分析する」を押すと、ここに入ります");
     fld("構成の骨組み（分解した結果。書き換えられます）","skeleton",true,7,"「構成を分解してもらう」を押すと、ここに入ります");
     var bs=el("div","btns"),b1=el("button","btn ghost","構成を分解してもらう"),b2=el("button","btn quiet","本文をコピー"),b3=el("button","btn quiet","削除");
     b1.type=b2.type=b3.type="button";b1.setAttribute("data-gen","");
+    if(kind==="mine"){var b0=el("button","btn","伸びた理由を分析する");b0.type="button";b0.setAttribute("data-gen","");b0.addEventListener("click",function(){analyzeGrowth(it)});bs.appendChild(b0)}
     b1.addEventListener("click",function(){analyze(it)});
     b2.addEventListener("click",function(){copy(it.body||"")});
     b3.addEventListener("click",function(){armed(b3,"もう一度押すと削除します","削除",function(){A.items=A.items.filter(function(x){return x!==it});S.refIds=S.refIds.filter(function(id){return id!==it.id});save();render()})});
@@ -680,6 +755,16 @@ function render(){
   // account select
   var sel=$("acctSel");sel.textContent="";DB.accounts.forEach(function(a){var o=el("option",null,a.name||"（名前なし）");o.value=a.id;sel.appendChild(o)});sel.value=A.id;
   // step 1
+  Array.prototype.forEach.call($("modes").querySelectorAll(".mode"),function(b){b.setAttribute("aria-pressed",String(b.dataset.mode===S.mode))});
+  $("planGrow").hidden=S.mode!=="grow";$("planAuto").hidden=S.mode!=="auto";
+  var pls=$("planList");pls.textContent="";pls.hidden=S.mode==="self"||!S.plans.length;
+  S.plans.forEach(function(o,i){
+    var b=el("button","plan");b.type="button";b.setAttribute("aria-pressed",String(S.planPick===i));
+    b.appendChild(el("b",null,o.title||"（タイトルなし）"));if(o.reader)b.appendChild(el("span",null,"読者："+o.reader));if(o.aim)b.appendChild(el("span","aim",o.aim));
+    if(o.lines.length){var ul=el("ul");o.lines.slice(0,4).forEach(function(h){ul.appendChild(el("li",null,h))});if(o.lines.length>4)ul.appendChild(el("li",null,"…ほか"+(o.lines.length-4)+"行"));b.appendChild(ul)}
+    b.addEventListener("click",function(){pickPlan(i)});pls.appendChild(b);
+  });
+  $("planNote").hidden=!S.planNote;$("planNote").textContent=S.planNote||"";
   $("exampleBanner").hidden=!S.isExample;$("productField").hidden=S.type!=="review";
   FIELDS.forEach(function(k){if($(k).value!==S[k])$(k).value=S[k]});
   var rp=$("refPick");rp.textContent="";
@@ -724,7 +809,7 @@ function render(){
   hs.push("できた画像を見て、下の頼み方で直してもらう");
   hs.forEach(function(t){how.appendChild(el("li",null,t))});
   // account
-  var map={acName:"name",acReader:"reader",acGoal:"goal",acPosts:"posts",acChar:"charNote"};
+  var map={acName:"name",acReader:"reader",acGoal:"goal",acPosts:"posts",acChar:"charNote",acDomain:"domain"};
   for(var id in map){if($(id).value!==A[map[id]])$(id).value=A[map[id]]}
   $("delAcct").disabled=DB.accounts.length<2;
   renderItems("other",$("refsBox"));renderItems("mine",$("libBox"));
@@ -773,7 +858,14 @@ $("useChar").addEventListener("change",function(){A.useChar=$("useChar").checked
 $("resetAll").addEventListener("click",function(){armed($("resetAll"),"もう一度押すと、いまの下書きを消します","最初から新しい記事を作る",function(){A.draft=newDraft(A,false);S=A.draft;go(1)})});
 
 // account
-[["acName","name"],["acReader","reader"],["acGoal","goal"],["acPosts","posts"],["acChar","charNote"]].forEach(function(p){
+$("modes").addEventListener("click",function(e){var b=e.target.closest(".mode");if(!b)return;S.mode=b.dataset.mode;save();render()});
+$("planGrowBtn").addEventListener("click",function(){makePlans("grow")});
+$("planAutoBtn").addEventListener("click",function(){makePlans("auto")});
+["theme","reader","memo"].forEach(function(k){$(k).addEventListener("input",function(){if(S.planNote){S.planNote="";$("planNote").hidden=true}})});
+$("acDomainFile").addEventListener("change",function(){var fs=Array.prototype.slice.call($("acDomainFile").files||[]);if(!fs.length)return;var left=fs.length;
+  fs.forEach(function(f){var r=new FileReader();r.onload=function(){var t=String(r.result||"").trim();if(t)A.domain=(A.domain.trim()?A.domain.trim()+"\n\n":"")+"## "+f.name+"\n"+t;if(--left===0){$("acDomainFile").value="";save();render();toast(fs.length+"件のファイルを追記しました")}};r.readAsText(f)});
+});
+[["acName","name"],["acReader","reader"],["acGoal","goal"],["acPosts","posts"],["acChar","charNote"],["acDomain","domain"]].forEach(function(p){
   $(p[0]).addEventListener("input",function(){A[p[1]]=$(p[0]).value;save();if(p[1]==="name"){var o=$("acctSel").selectedOptions[0];if(o)o.textContent=A.name||"（名前なし）"}});
 });
 $("addAcct").addEventListener("click",function(){var ac=newAccount("新しいアカウント "+(DB.accounts.length+1),false);DB.accounts.push(ac);pickAccount(ac.id);view="acct";save();render();$("acName").focus();$("acName").select()});
