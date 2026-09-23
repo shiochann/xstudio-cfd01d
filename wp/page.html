@@ -5,11 +5,12 @@ body:has(.xas) header.wp-block-template-part, body:has(.xas) footer.wp-block-tem
 body:has(.xas) { background: #FFFFFF; margin: 0; }
 body:has(.xas) .wp-site-blocks, body:has(.xas) main { padding: 0 !important; margin: 0 !important; max-width: none !important; }
 body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0 !important; padding: 0 !important; max-width: none !important; }
-.xas { --ink: #473C31; --taupe: #8C7D6E; --greige: #F5F0EB; --sand: #EFE6DE; --line: #E7DFD7; --peach: #D9B19A; --pink: #F27888; --sage: #EEF1E4; font-family: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif; font-weight: 500; color: var(--ink); line-height: 1.95; font-size: 16px; overflow-x: hidden; position: relative; background: #FFFFFF; }
+.xas { --ink: #473C31; --taupe: #8C7D6E; --greige: #F5F0EB; --sand: #EFE6DE; --line: #E7DFD7; --peach: #D9B19A; --pink: #F27888; --sage: #EEF1E4; font-family: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif; font-weight: 500; color: var(--ink); line-height: 1.95; font-size: 16px; overflow-x: clip; position: relative; background: #FFFFFF; max-width: 100%; }
 .xas *, .xas *::before, .xas *::after { box-sizing: border-box; }
 .xas a { color: var(--taupe); }
 .xas .en, .xas h1, .xas .logo, .xas .flow .n, .xas .card .num, .xas .screen .ttl, .xas .screen .q, .xas .screen .meter, .xas .last .en, .xas .phone h3 { font-family: "Cormorant Garamond", "Playfair Display", "Hiragino Mincho ProN", serif; font-weight: 500; }
-.xas .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; position: relative; }
+.xas .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; position: relative; min-width: 0; }
+.xas img, .xas .screen, .xas .card, .xas details, .xas .flow li { max-width: 100%; }
 .xas .bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding-top: 26px; padding-bottom: 22px; }
 .xas .logo { font-size: 24px; letter-spacing: .02em; color: var(--ink); line-height: 1.1; }
 .xas .logo small { display: block; font-size: 13px; letter-spacing: .12em; color: var(--taupe); font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 700; }
@@ -18,7 +19,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 .xas .pill.main { background: var(--pink); border-color: var(--pink); color: #FFFFFF; }
 .xas .pill.white { background: #FFFFFF; border-color: #FFFFFF; color: var(--ink); }
 .xas .pill.big { padding: 18px 42px; font-size: 17px; }
-.xas .hero { padding-top: 40px; padding-bottom: 80px; position: relative; }
+.xas .hero { padding-top: 40px; padding-bottom: 80px; position: relative; overflow: hidden; }
 .xas .hero::before { content: ""; position: absolute; z-index: 0; top: -120px; right: -120px; width: 62%; max-width: 720px; height: 560px; background: var(--greige); border-radius: 58% 42% 47% 53% / 55% 48% 52% 45%; }
 .xas .hero::after { content: ""; position: absolute; z-index: 0; bottom: -80px; left: -160px; width: 340px; height: 300px; background: var(--sage); border-radius: 47% 53% 58% 42% / 52% 44% 56% 48%; }
 .xas .hero .cols { display: flex; flex-wrap: wrap; gap: 44px; align-items: center; position: relative; z-index: 1; }

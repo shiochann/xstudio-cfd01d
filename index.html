@@ -29,9 +29,13 @@ html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{dis
   --pen:#F59AA6; --pen-soft:#3C2429; --ok:#B7CF7A; --sage:#262B1F; --peach:#C9A186;
 }
 *{box-sizing:border-box}
-body{background:var(--ground);color:var(--ink);font-family:var(--body);font-weight:500;font-size:15px;line-height:1.9;padding-inline:16px;padding-block:0 96px;position:relative;overflow-x:hidden}
-body::before{content:"";position:absolute;z-index:-1;top:-120px;right:-160px;width:min(70vw,760px);height:520px;background:var(--surface);border-radius:58% 42% 47% 53% / 55% 48% 52% 45%;pointer-events:none}
-body::after{content:"";position:absolute;z-index:-1;top:640px;left:-220px;width:420px;height:360px;background:var(--sage);border-radius:47% 53% 58% 42% / 52% 44% 56% 48%;pointer-events:none}
+html{overflow-x:clip;max-width:100%}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-weight:500;font-size:15px;line-height:1.9;padding-inline:16px;padding-block:0 96px;position:relative;overflow-x:clip;max-width:100%;min-width:0}
+.bg{position:absolute;left:0;right:0;top:0;height:1100px;overflow:hidden;z-index:-1;pointer-events:none}
+.bg::before{content:"";position:absolute;top:-120px;right:-160px;width:min(70vw,760px);height:520px;background:var(--surface);border-radius:58% 42% 47% 53% / 55% 48% 52% 45%}
+.bg::after{content:"";position:absolute;top:640px;left:-220px;width:420px;height:360px;background:var(--sage);border-radius:47% 53% 58% 42% / 52% 44% 56% 48%}
+.app,.panel,.field,.row>.field,.outs>.field{min-width:0}
+input,textarea,select,pre,.out{max-width:100%}
 .app{max-width:1080px;margin-inline:auto;display:flex;flex-direction:column;gap:28px}
 
 /* masthead */
@@ -150,7 +154,7 @@ textarea{resize:vertical;min-height:92px}
 a{color:var(--accent);font-weight:700}
 
 @media (max-width:760px){
-  body::before{right:-200px;top:-160px}
+  .bg::before{right:-200px;top:-160px}
   .shell{grid-template-columns:minmax(0,1fr);gap:16px}
   .rail{position:static;max-height:none;overflow:visible;gap:6px}
   .rail :is(ol,ul){flex-direction:row;flex-wrap:wrap;gap:6px}
@@ -168,6 +172,7 @@ a{color:var(--accent);font-weight:700}
 </head>
 <body>
 
+<div class="bg" aria-hidden="true"></div>
 <div class="app">
   <header class="top">
     <div class="brand">
