@@ -5,158 +5,159 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>X記事スタジオ</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap">
 <style>
 html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
 
 :root{
-  --ground:#FFFFFF; --surface:#F0F6FA; --sunk:#FFFFFF; --ink:#1A1A1A; --ink2:#5F6B73;
-  --line:#CCE2F0; --accent:#189BBC; --accent-ink:#FFFFFF; --accent-soft:#CCE2F0; --soft-ink:#0A0A0A;
-  --pen:#C4472D; --pen-soft:#FCEDE8; --ok:#189BBC;
-  --en:"Jost","Futura","Century Gothic",sans-serif;
+  --ground:#FFFFFF; --surface:#F5F0EB; --sunk:#FFFFFF; --ink:#473C31; --ink2:#8C7D6E;
+  --line:#E7DFD7; --accent:#8C7D6E; --accent-ink:#FFFFFF; --accent-soft:#EFE6DE; --soft-ink:#473C31;
+  --pen:#F27888; --pen-soft:#FBE4E7; --ok:#9FBE56; --sage:#EEF1E4; --peach:#D9B19A;
+  --en:"Cormorant Garamond","Playfair Display","Hiragino Mincho ProN",serif;
   --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
-  --wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='10' viewBox='0 0 40 10'%3E%3Cpath d='M0 5c5 0 5-3.5 10-3.5S15 5 20 5s5-3.5 10-3.5S35 5 40 5' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#0C181D; --surface:#13252D; --sunk:#0C181D; --ink:#EEF5F8; --ink2:#9DB4BF;
-    --line:#234351; --accent:#3FB6D6; --accent-ink:#06151B; --accent-soft:#1D3F4D; --soft-ink:#EEF5F8;
-    --pen:#F08268; --pen-soft:#3A201A; --ok:#3FB6D6;
+    --ground:#1C1714; --surface:#26201B; --sunk:#1C1714; --ink:#F1EAE2; --ink2:#B9AB9C;
+    --line:#3B322B; --accent:#B9AB9C; --accent-ink:#1C1714; --accent-soft:#332B25; --soft-ink:#F1EAE2;
+    --pen:#F59AA6; --pen-soft:#3C2429; --ok:#B7CF7A; --sage:#262B1F; --peach:#C9A186;
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0C181D; --surface:#13252D; --sunk:#0C181D; --ink:#EEF5F8; --ink2:#9DB4BF;
-  --line:#234351; --accent:#3FB6D6; --accent-ink:#06151B; --accent-soft:#1D3F4D; --soft-ink:#EEF5F8;
-  --pen:#F08268; --pen-soft:#3A201A; --ok:#3FB6D6;
+  --ground:#1C1714; --surface:#26201B; --sunk:#1C1714; --ink:#F1EAE2; --ink2:#B9AB9C;
+  --line:#3B322B; --accent:#B9AB9C; --accent-ink:#1C1714; --accent-soft:#332B25; --soft-ink:#F1EAE2;
+  --pen:#F59AA6; --pen-soft:#3C2429; --ok:#B7CF7A; --sage:#262B1F; --peach:#C9A186;
 }
 *{box-sizing:border-box}
-body{background:var(--ground);color:var(--ink);font-family:var(--body);font-weight:500;font-size:15px;line-height:1.85;padding-inline:16px;padding-block:0 96px}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-weight:500;font-size:15px;line-height:1.9;padding-inline:16px;padding-block:0 96px;position:relative;overflow-x:hidden}
+body::before{content:"";position:absolute;z-index:-1;top:-120px;right:-160px;width:min(70vw,760px);height:520px;background:var(--surface);border-radius:58% 42% 47% 53% / 55% 48% 52% 45%;pointer-events:none}
+body::after{content:"";position:absolute;z-index:-1;top:640px;left:-220px;width:420px;height:360px;background:var(--sage);border-radius:47% 53% 58% 42% / 52% 44% 56% 48%;pointer-events:none}
 .app{max-width:1080px;margin-inline:auto;display:flex;flex-direction:column;gap:28px}
 
-/* masthead: 大きな欧文ロゴと波線 */
-.top{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:flex-end;justify-content:space-between;padding-block:34px 26px;position:relative}
-.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;background:var(--accent);-webkit-mask:var(--wave) repeat-x left center/40px 10px;mask:var(--wave) repeat-x left center/40px 10px}
-.brand{display:flex;flex-direction:column;gap:6px}
-.brand h1{font-family:var(--en);font-weight:500;font-size:clamp(30px,6vw,52px);line-height:1;margin:0;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
-.brand p{margin:0;color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.04em}
+/* masthead */
+.top{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:flex-end;justify-content:space-between;padding-block:40px 18px;border-bottom:1px solid var(--line)}
+.brand{display:flex;flex-direction:column;gap:4px}
+.brand h1{font-family:var(--en);font-weight:500;font-size:clamp(36px,6.5vw,60px);line-height:1;margin:0;letter-spacing:.02em;color:var(--ink)}
+.brand p{margin:0;color:var(--ink2);font-size:13px;font-weight:700;letter-spacing:.06em}
 .engine{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px}
-.engine label{font-family:var(--en);letter-spacing:.12em;color:var(--accent);font-size:12px}
-.engine select{width:auto;max-width:220px;padding:7px 16px;border-radius:999px;background:var(--accent-soft);border-color:var(--accent-soft);color:var(--soft-ink);font-weight:700}
-.chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);padding:6px 14px;border-radius:999px;font-weight:700;font-size:12px}
+.engine label{font-family:var(--en);font-size:16px;color:var(--ink2);letter-spacing:.04em}
+.engine select{width:auto;max-width:220px;padding:7px 16px;border-radius:100px;background:var(--surface);border-color:var(--surface);color:var(--ink);font-weight:700}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);padding:6px 14px;border-radius:100px;font-weight:700;font-size:12px;color:var(--ink)}
 .chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ink2);flex:none}
-.chip[data-mode="ai"]::before{background:var(--accent)}
-.chip[data-mode="manual"]::before{background:var(--accent)}
+.chip[data-mode="ai"]::before{background:var(--ok)}
+.chip[data-mode="manual"]::before{background:var(--peach)}
 
-.shell{display:grid;grid-template-columns:210px minmax(0,1fr);gap:32px;align-items:start}
+.shell{display:grid;grid-template-columns:200px minmax(0,1fr);gap:36px;align-items:start}
 .rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:flex;flex-direction:column;gap:6px;max-height:calc(100vh - 32px);overflow-y:auto;padding-bottom:4px}
-.rail :is(ol,ul){list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.rail :is(ol,ul){list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
 .rail ol{counter-reset:s}
-.rail button{width:100%;display:flex;gap:12px;align-items:baseline;text-align:left;background:none;border:0;border-radius:999px;padding:7px 16px;color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.rail button{width:100%;display:flex;gap:12px;align-items:baseline;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:11px 4px;color:var(--ink2);font:inherit;font-weight:700;cursor:pointer}
 .rail ol button{counter-increment:s}
-.rail ol button::before{content:"0" counter(s);font-family:var(--en);font-weight:500;font-size:13px;letter-spacing:.08em;color:var(--accent)}
-.rail button[aria-current]{background:var(--accent);color:var(--accent-ink)}
-.rail ol button[aria-current]::before{color:var(--accent-ink)}
-.rail ol button[data-done="1"]:not([aria-current])::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);margin-left:auto;align-self:center}
-.rail button:hover:not([aria-current]){background:var(--accent-soft);color:var(--soft-ink)}
-.railcap{margin:12px 0 2px;padding-left:16px;font-family:var(--en);font-size:12px;color:var(--accent);letter-spacing:.2em}
+.rail ol button::before{content:"0" counter(s);font-family:var(--en);font-weight:500;font-size:16px;letter-spacing:.04em;color:var(--peach)}
+.rail button[aria-current]{color:var(--ink);position:relative}
+.rail button[aria-current]::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--pen);margin-left:auto;align-self:center}
+.rail ol button[data-done="1"]:not([aria-current])::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);margin-left:auto;align-self:center}
+.rail button:hover:not([aria-current]){color:var(--ink)}
+.railcap{margin:22px 0 0;padding-left:4px;font-family:var(--en);font-size:17px;color:var(--ink2);letter-spacing:.06em}
 
-.panel{background:var(--surface);border-radius:8px;padding:32px;display:flex;flex-direction:column;gap:20px}
-.panel h2{margin:0 0 4px;display:flex;flex-direction:column;gap:6px;color:var(--accent)}
-.panel h2 .en{font-family:var(--en);font-weight:500;font-size:32px;line-height:1;letter-spacing:.1em}
-.panel h2 .jp{font-size:14px;font-weight:700;line-height:1.5;text-wrap:balance}
-.panel h3{font-family:var(--en);font-weight:500;font-size:22px;letter-spacing:.1em;color:var(--accent);margin:10px 0 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
-.panel h3 small{font-family:var(--body);font-size:13px;font-weight:700;letter-spacing:0}
+.panel{background:var(--surface);border-radius:28px;padding:36px;display:flex;flex-direction:column;gap:20px}
+.panel h2{margin:0 0 4px;display:flex;flex-direction:column;gap:4px;color:var(--ink)}
+.panel h2 .en{font-family:var(--en);font-weight:500;font-size:40px;line-height:1;letter-spacing:.02em;text-transform:capitalize}
+.panel h2 .jp{font-size:14px;font-weight:700;line-height:1.5;color:var(--ink2);text-wrap:balance}
+.panel h3{font-family:var(--en);font-weight:500;font-size:28px;letter-spacing:.02em;color:var(--ink);margin:10px 0 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;text-transform:capitalize}
+.panel h3 small{font-family:var(--body);font-size:13px;font-weight:700;letter-spacing:0;color:var(--ink2)}
 .lead{margin:0;color:var(--ink);max-width:40em}
 .field{display:flex;flex-direction:column;gap:6px}
 .field label,.lab{font-weight:700;font-size:14px}
 .hint{color:var(--ink2);font-size:13px;margin:0}
 .row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
 .row>.field{flex:1 1 220px}
-input[type=text],textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:11px 14px;line-height:1.7}
+input[type=text],textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:14px;padding:11px 16px;line-height:1.7}
 input[type=file]{font:inherit;font-size:13px}
 textarea{resize:vertical;min-height:92px}
 #article{min-height:460px;font-size:15px;line-height:2}
 :is(input,textarea,select):focus{border-color:var(--accent)}
-:is(input,textarea,select,button,a,summary):focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+:is(input,textarea,select,button,a,summary):focus-visible{outline:2px solid var(--pen);outline-offset:2px}
 
 .btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.btn{font:inherit;font-weight:700;border-radius:999px;padding:12px 26px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
-.btn.ghost{background:var(--accent-soft);border-color:var(--accent-soft);color:var(--soft-ink)}
-.btn.quiet{border-color:var(--line);background:var(--sunk);color:var(--ink);padding:7px 16px;font-size:13px}
+.btn{font:inherit;font-weight:700;border-radius:100px;padding:12px 28px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn.ghost{background:var(--ground);border-color:var(--line);color:var(--ink)}
+.btn.quiet{border-color:var(--line);background:var(--ground);color:var(--ink);padding:7px 16px;font-size:13px;font-weight:500}
 .btn.link{border:0;background:none;color:var(--accent);padding:0;text-decoration:underline;font-size:13px;border-radius:0}
-.btn:hover:not(:disabled){filter:brightness(1.06)}
+.btn:hover:not(:disabled){filter:brightness(1.05)}
 .btn:disabled,body.busy .btn[data-gen]{opacity:.45;cursor:not-allowed}
-.note{background:var(--accent-soft);color:var(--soft-ink);border-radius:8px;padding:12px 16px;font-size:13px;font-weight:700;margin:0}
-.example{background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:12px 16px;font-size:13px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.note{background:var(--pen-soft);color:var(--ink);border-radius:14px;padding:12px 16px;font-size:13px;font-weight:700;margin:0}
+.example{background:var(--accent);color:var(--accent-ink);border-radius:18px;padding:12px 16px;font-size:13px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.example .btn{background:var(--ground);border-color:var(--ground);color:var(--ink)}
 
 .checks{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
 .checks label{font-weight:500;display:flex;gap:8px;align-items:baseline;cursor:pointer}
 .checks input,.check input{accent-color:var(--accent);width:16px;height:16px;flex:none;transform:translateY(2px)}
 .check{display:flex;gap:8px;align-items:baseline;font-weight:700;font-size:14px;cursor:pointer}
-.kind{font-size:11px;font-weight:700;color:var(--soft-ink);background:var(--accent-soft);border-radius:999px;padding:0 9px;white-space:nowrap}
+.kind{font-size:11px;font-weight:700;color:var(--ink);background:var(--ground);border-radius:100px;padding:0 9px;white-space:nowrap}
 
 .qlist{display:flex;flex-direction:column;gap:18px;margin:0;padding:0;list-style:none;counter-reset:q}
 .qlist li{display:flex;flex-direction:column;gap:6px;counter-increment:q}
 .qlist .q{font-weight:700;display:flex;gap:10px;align-items:baseline}
-.qlist .q::before{content:"Q" counter(q);font-family:var(--en);font-weight:500;letter-spacing:.08em;color:var(--accent);flex:none}
+.qlist .q::before{content:"Q" counter(q);font-family:var(--en);font-weight:500;font-size:19px;color:var(--peach);flex:none}
 
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.plan{text-align:left;font:inherit;color:var(--ink);background:var(--sunk);border:2px solid transparent;border-radius:8px;padding:18px;cursor:pointer;display:flex;flex-direction:column;gap:8px}
-.plan[aria-pressed="true"]{border-color:var(--accent)}
+.plan{text-align:left;font:inherit;color:var(--ink);background:var(--sunk);border:2px solid transparent;border-radius:18px;padding:18px;cursor:pointer;display:flex;flex-direction:column;gap:8px}
+.plan[aria-pressed="true"]{border-color:var(--pen)}
 .plan b{font-size:16px;line-height:1.55}
-.plan span{font-size:13px;color:var(--accent);font-weight:700}
+.plan span{font-size:13px;color:var(--ink2);font-weight:700}
 .plan ul{margin:0;padding-left:1.1em;font-size:13px;font-weight:500}
 
 .items{display:flex;flex-direction:column;gap:10px}
-.item{border-radius:8px;background:var(--sunk)}
-.item summary{cursor:pointer;padding:14px 18px;display:flex;gap:10px;align-items:baseline;justify-content:space-between;font-weight:700;border-radius:8px}
+.item{border-radius:18px;background:var(--sunk)}
+.item summary{cursor:pointer;padding:14px 18px;display:flex;gap:10px;align-items:baseline;justify-content:space-between;font-weight:700;border-radius:18px}
 .item summary .ttl{overflow-wrap:anywhere}
-.item .tag{font-size:11px;font-weight:700;color:var(--ink2);background:var(--surface);border-radius:999px;padding:1px 10px;white-space:nowrap}
+.item .tag{font-size:11px;font-weight:700;color:var(--ink2);background:var(--surface);border-radius:100px;padding:1px 10px;white-space:nowrap}
 .item .tag[data-on="1"]{color:var(--accent-ink);background:var(--accent)}
 .item .inner{padding:6px 18px 20px;display:flex;flex-direction:column;gap:14px}
 .item .inner :is(input,textarea){background:var(--surface);border-color:transparent}
 
-.meter{font-family:var(--en);font-size:13px;letter-spacing:.06em;color:var(--accent);font-variant-numeric:tabular-nums}
+.meter{font-family:var(--en);font-size:16px;letter-spacing:.03em;color:var(--ink2);font-variant-numeric:tabular-nums}
 .tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
-.out{white-space:pre-wrap;background:var(--sunk);border-radius:8px;padding:14px 16px;font-size:14px;margin:0;font-family:var(--body)}
+.out{white-space:pre-wrap;background:var(--sunk);border-radius:14px;padding:14px 16px;font-size:14px;margin:0;font-family:var(--body)}
 .outs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
 .outs .field textarea{min-height:170px}
 .headrow{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.thumb{margin-top:24px;background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:26px;display:flex;flex-direction:column;gap:16px}
-.thumb h3{color:var(--accent-ink);margin:0}
-.thumb .hint{color:var(--accent-ink);opacity:.9}
-.thumb textarea{border-color:transparent}
+.thumb{margin-top:24px;background:var(--ground);color:var(--ink);border:1px solid var(--line);border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:16px}
+.thumb h3{margin:0}
+.thumb textarea,.thumb input[type=text]{background:var(--surface);border-color:transparent}
 .thumb textarea#prD{min-height:230px}
-.thumb input[type=file]{color:var(--accent-ink)}
-.thumb .btn{background:var(--ground);border-color:var(--ground);color:var(--accent)}
-.thumb .check input{accent-color:var(--ground)}
-.thumb :is(input,textarea,button):focus-visible{outline-color:var(--ground)}
+.thumb input[type=file]{color:var(--ink)}
+.thumb .btn{background:var(--pen);border-color:var(--pen);color:#FFFFFF}
+.thumb .btn.quiet{background:var(--surface);border-color:var(--surface);color:var(--ink)}
 .howto{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:4px;font-size:14px}
 .foot{color:var(--ink2);font-size:12px;margin:0;padding-inline:4px}
 
-.bar{position:fixed;left:0;right:0;bottom:0;background:var(--accent);color:var(--accent-ink);display:flex;gap:14px;align-items:center;justify-content:center;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));font-size:14px;font-weight:700;z-index:5}
-.bar button{font:inherit;background:transparent;color:inherit;border:1px solid currentColor;border-radius:999px;padding:3px 18px;cursor:pointer}
-.sheet{position:fixed;inset:0;background:rgba(8,40,52,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
-.sheet .box{background:var(--ground);color:var(--ink);border-radius:8px;max-width:640px;width:100%;max-height:100%;overflow:auto;padding:28px;display:flex;flex-direction:column;gap:16px}
-.sheet h3{margin:0;font-size:18px;color:var(--accent)}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--ground);display:flex;gap:14px;align-items:center;justify-content:center;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));font-size:14px;font-weight:700;z-index:5}
+.bar button{font:inherit;background:transparent;color:inherit;border:1px solid currentColor;border-radius:100px;padding:3px 18px;cursor:pointer}
+.sheet{position:fixed;inset:0;background:rgba(71,60,49,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
+.sheet .box{background:var(--ground);color:var(--ink);border-radius:28px;max-width:640px;width:100%;max-height:100%;overflow:auto;padding:28px;display:flex;flex-direction:column;gap:16px}
+.sheet h3{margin:0;font-family:var(--en);font-weight:500;font-size:26px;color:var(--ink)}
 .sheet ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:12px}
 .sheet textarea{min-height:110px;font-size:13px;background:var(--surface);border-color:transparent}
-#toast{position:fixed;left:50%;bottom:calc(70px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--ground);padding:9px 20px;border-radius:999px;font-size:13px;font-weight:700;z-index:20;max-width:calc(100% - 32px)}
+#toast{position:fixed;left:50%;bottom:calc(70px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--ground);padding:9px 20px;border-radius:100px;font-size:13px;font-weight:700;z-index:20;max-width:calc(100% - 32px)}
 a{color:var(--accent);font-weight:700}
 
 @media (max-width:760px){
+  body::before{right:-200px;top:-160px}
   .shell{grid-template-columns:minmax(0,1fr);gap:16px}
   .rail{position:static;max-height:none;overflow:visible;gap:6px}
   .rail :is(ol,ul){flex-direction:row;flex-wrap:wrap;gap:6px}
-  .rail button{width:auto}
-  .railcap{margin:6px 0 0;padding-left:4px}
-  .rail button{padding:7px 14px;white-space:nowrap;background:var(--surface)}
-  .panel{padding:22px 16px}
-  .panel h2 .en{font-size:26px}
+  .rail button{width:auto;border:1px solid var(--line);border-radius:100px;padding:6px 14px;background:var(--ground);white-space:nowrap}
+  .rail button[aria-current]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+  .rail button[aria-current]::after,.rail ol button[data-done="1"]:not([aria-current])::after{margin-left:8px}
+  .railcap{margin:8px 0 0}
+  .panel{padding:24px 18px;border-radius:22px}
+  .panel h2 .en{font-size:32px}
   .thumb{padding:20px 16px}
-  .top{padding-block:24px 22px}
+  .top{padding-block:28px 16px}
 }
-@media (prefers-reduced-motion:no-preference){.btn,.plan,.rail button{transition:background-color .15s,border-color .15s,filter .15s}}
+@media (prefers-reduced-motion:no-preference){.btn,.plan,.rail button{transition:background-color .15s,border-color .15s,filter .15s,color .15s}}
 </style>
 </head>
 <body>
@@ -164,11 +165,11 @@ a{color:var(--accent);font-weight:700}
 <div class="app">
   <header class="top">
     <div class="brand">
-      <h1>X Article Studio</h1>
+      <h1>x article studio</h1>
       <p>X記事スタジオ ｜ 体験メモから、記事・告知投稿・サムネ用プロンプトまで</p>
     </div>
     <div class="engine">
-      <label for="acctSel">ACCOUNT</label>
+      <label for="acctSel">Account</label>
       <select id="acctSel"></select>
       <span class="chip" id="engineChip" data-mode="checking">Claudeとの接続を確認中…</span>
       <button class="btn quiet" id="engineToggle" type="button" hidden>コピペモードに切り替える</button>
@@ -184,7 +185,7 @@ a{color:var(--accent);font-weight:700}
         <li><button type="button" data-view="4">本文を仕上げる</button></li>
         <li><button type="button" data-view="5">告知とサムネ</button></li>
       </ol>
-      <p class="railcap">TOOLS</p>
+      <p class="railcap">Tools</p>
       <ul>
         <li><button type="button" data-view="acct">アカウント設定</button></li>
         <li><button type="button" data-view="refs" data-label="参考にする記事">参考にする記事</button></li>
@@ -195,7 +196,7 @@ a{color:var(--accent);font-weight:700}
     <main>
       <!-- 1 -->
       <section class="panel" id="view1">
-        <h2><span class="en">MATERIAL</span><span class="jp">まず、記事の素材を入れる</span></h2>
+        <h2><span class="en">Material</span><span class="jp">まず、記事の素材を入れる</span></h2>
         <p class="lead">うまく書こうとしなくて大丈夫です。箇条書きのメモで十分。ここに書いた体験だけを使って記事を作ります。</p>
         <div class="example" id="exampleBanner" hidden>
           <span>いま入っているのは<strong>入力例</strong>です。流れを試したあと、自分の内容に書き換えてください。</span>
@@ -229,7 +230,7 @@ a{color:var(--accent);font-weight:700}
 
       <!-- 2 -->
       <section class="panel" id="view2" hidden>
-        <h2><span class="en">QUESTIONS</span><span class="jp">記事に足りない話を、質問で引き出す</span></h2>
+        <h2><span class="en">Questions</span><span class="jp">記事に足りない話を、質問で引き出す</span></h2>
         <p class="lead">答えられるものだけで大丈夫です。分からない質問は空欄のままにしてください。空欄をAIが埋めることはありません。</p>
         <ul class="qlist" id="qlist"></ul>
         <p class="hint" id="qEmpty">まだ質問がありません。「素材を入れる」から始めてください。</p>
@@ -241,7 +242,7 @@ a{color:var(--accent);font-weight:700}
 
       <!-- 3 -->
       <section class="panel" id="view3" hidden>
-        <h2><span class="en">OUTLINE</span><span class="jp">タイトルと構成を選ぶ</span></h2>
+        <h2><span class="en">Outline</span><span class="jp">タイトルと構成を選ぶ</span></h2>
         <p class="lead">切り口の違う3案です。1つ選ぶと下に展開されるので、見出しを自由に書き換えられます。</p>
         <div class="plans" id="plans"></div>
         <p class="hint" id="pEmpty">まだ構成がありません。</p>
@@ -255,7 +256,7 @@ a{color:var(--accent);font-weight:700}
 
       <!-- 4 -->
       <section class="panel" id="view4" hidden>
-        <h2><span class="en">WRITING</span><span class="jp">本文を仕上げる</span></h2>
+        <h2><span class="en">Writing</span><span class="jp">本文を仕上げる</span></h2>
         <p class="note">【要追記：◯◯】と書かれた場所は、素材になかった情報です。自分の言葉で埋めるか、その文を消してください。</p>
         <div class="tools">
           <span class="meter" id="meter">0字 ・ 原稿用紙 0枚 ・ 上限50,000字</span>
@@ -285,7 +286,7 @@ a{color:var(--accent);font-weight:700}
 
       <!-- 5 -->
       <section class="panel" id="view5" hidden>
-        <h2><span class="en">PROMOTION</span><span class="jp">告知投稿とサムネ用プロンプト</span></h2>
+        <h2><span class="en">Promotion</span><span class="jp">告知投稿とサムネ用プロンプト</span></h2>
         <p class="lead">記事を公開したら、入口になる投稿を出します。同じ記事に、切り口を変えて何度でも入口を作れます。</p>
         <p class="hint" id="prEmpty">まだ作られていません。本文ができたら「告知投稿とサムネ用プロンプトを作る」を押してください。</p>
         <div id="promoWrap" hidden>
@@ -296,7 +297,7 @@ a{color:var(--accent);font-weight:700}
           </div>
         </div>
           <div class="thumb">
-            <h3>THUMBNAIL <small>サムネを作る（ChatGPTに貼るプロンプト）</small></h3>
+            <h3>Thumbnail <small>サムネを作る（ChatGPTに貼るプロンプト）</small></h3>
             <div class="field"><label for="thumbRef">参考にしたいサムネ画像（1〜3枚・なくてもOK）</label>
               <input type="file" id="thumbRef" accept="image/png,image/jpeg,image/webp,image/gif" multiple>
               <p class="hint">「こういう雰囲気にしたい」というサムネの画像を選ぶと、構図・配色・文字の入れ方を読み取って「デザインの型」にします。画像そのものはどこにも保存されません。</p>
@@ -327,7 +328,7 @@ a{color:var(--accent);font-weight:700}
 
       <!-- account -->
       <section class="panel" id="viewacct" hidden>
-        <h2><span class="en">ACCOUNT</span><span class="jp">アカウント設定</span></h2>
+        <h2><span class="en">Account</span><span class="jp">アカウント設定</span></h2>
         <p class="lead">アカウントごとに、口調の見本・読者・参考記事・保管庫・書きかけの下書きを分けて持てます。右上の「アカウント」で切り替えます。</p>
         <div class="field"><label for="acName">アカウント名</label><input type="text" id="acName" placeholder="例：@shio_chan244"></div>
         <div class="row">
@@ -343,7 +344,7 @@ a{color:var(--accent);font-weight:700}
         <div class="btns"><button class="btn ghost" id="addAcct" type="button">アカウントを追加</button>
           <button class="btn quiet" id="delAcct" type="button">このアカウントを削除</button></div>
 
-        <h3>BACKUP <small>バックアップと引っ越し</small></h3>
+        <h3>Backup <small>バックアップと引っ越し</small></h3>
         <p class="hint">入力した内容は、この端末のこのブラウザにだけ保存されています。別の端末で使うときや、消えると困るときは、バックアップを取って、メモ帳などに保存しておいてください。</p>
         <div class="btns">
           <button class="btn ghost" id="exportFile" type="button">全アカウントをファイルに保存</button>
@@ -359,7 +360,7 @@ a{color:var(--accent);font-weight:700}
 
       <!-- refs -->
       <section class="panel" id="viewrefs" hidden>
-        <h2><span class="en">REFERENCE</span><span class="jp">参考にする記事</span></h2>
+        <h2><span class="en">Reference</span><span class="jp">参考にする記事</span></h2>
         <p class="lead">構成を真似したい発信者さんのXの記事を貼っておく場所です。「構成を分解」を押すと骨組みだけが取り出され、素材入力の画面で選べるようになります。</p>
         <p class="note">借りるのは、ブロックの順番と役割だけです。文章・言い回し・体験談・数字は写しません。出典（書いた人・URL）を残しておいてください。</p>
         <div class="items" id="refsBox"></div>
@@ -368,7 +369,7 @@ a{color:var(--accent);font-weight:700}
 
       <!-- lib -->
       <section class="panel" id="viewlib" hidden>
-        <h2><span class="en">ARCHIVE</span><span class="jp">伸びた記事の保管庫</span></h2>
+        <h2><span class="en">Archive</span><span class="jp">伸びた記事の保管庫</span></h2>
         <p class="lead">自分の記事を取っておく場所です。反応のよかった記事は構成を分解しておくと、次の記事で同じ型を使えます。</p>
         <div class="items" id="libBox"></div>
         <div class="btns"><button class="btn ghost" id="addLib" type="button">過去の記事を貼って追加</button></div>

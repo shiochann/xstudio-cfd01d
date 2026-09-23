@@ -6,116 +6,122 @@
 <meta name="robots" content="noindex,nofollow">
 <title>X記事スタジオ｜導入ガイド</title>
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap");
 body:has(.xas) header.wp-block-template-part, body:has(.xas) footer.wp-block-template-part { display: none; }
 body:has(.xas) { background: #FFFFFF; margin: 0; }
 body:has(.xas) .wp-site-blocks, body:has(.xas) main { padding: 0 !important; margin: 0 !important; max-width: none !important; }
 body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0 !important; padding: 0 !important; max-width: none !important; }
-.xas { --blue: #189BBC; --pale: #CCE2F0; --mist: #F0F6FA; --ink: #1A1A1A; font-family: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif; font-weight: 500; color: var(--ink); line-height: 1.9; font-size: 16px; overflow-x: hidden; }
+.xas { --ink: #473C31; --taupe: #8C7D6E; --greige: #F5F0EB; --sand: #EFE6DE; --line: #E7DFD7; --peach: #D9B19A; --pink: #F27888; --sage: #EEF1E4; font-family: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif; font-weight: 500; color: var(--ink); line-height: 1.95; font-size: 16px; overflow-x: hidden; position: relative; background: #FFFFFF; }
 .xas *, .xas *::before, .xas *::after { box-sizing: border-box; }
-.xas a { color: var(--blue); }
-.xas .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
-.xas .bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding-top: 22px; padding-bottom: 22px; }
-.xas .logo { font-family: "Jost", sans-serif; font-weight: 500; letter-spacing: .14em; color: var(--blue); font-size: 17px; line-height: 1.2; }
-.xas .logo small { display: block; font-size: 11px; letter-spacing: .2em; }
+.xas a { color: var(--taupe); }
+.xas .en, .xas h1, .xas .logo, .xas .flow .n, .xas .card .num, .xas .screen .ttl, .xas .screen .q, .xas .screen .meter, .xas .last .en, .xas .phone h3 { font-family: "Cormorant Garamond", "Playfair Display", "Hiragino Mincho ProN", serif; font-weight: 500; }
+.xas .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; position: relative; }
+.xas .bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding-top: 26px; padding-bottom: 22px; }
+.xas .logo { font-size: 24px; letter-spacing: .02em; color: var(--ink); line-height: 1.1; }
+.xas .logo small { display: block; font-size: 13px; letter-spacing: .12em; color: var(--taupe); font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 700; }
 .xas .nav { display: flex; flex-wrap: wrap; gap: 8px; }
-.xas .pill { display: inline-block; text-decoration: none; font-weight: 700; border-radius: 999px; padding: 12px 26px; background: var(--pale); color: #0A0A0A; line-height: 1.4; text-align: center; }
-.xas .pill.main { background: var(--blue); color: #FFFFFF; }
-.xas .pill.white { background: #FFFFFF; color: var(--blue); }
-.xas .pill.big { padding: 18px 40px; font-size: 17px; }
-.xas .hero { padding-top: 28px; padding-bottom: 72px; }
-.xas .hero .cols { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
+.xas .pill { display: inline-block; text-decoration: none; font-weight: 700; border-radius: 100px; padding: 12px 28px; background: #FFFFFF; border: 1px solid var(--line); color: var(--ink); line-height: 1.4; text-align: center; }
+.xas .pill.main { background: var(--pink); border-color: var(--pink); color: #FFFFFF; }
+.xas .pill.white { background: #FFFFFF; border-color: #FFFFFF; color: var(--ink); }
+.xas .pill.big { padding: 18px 42px; font-size: 17px; }
+.xas .hero { padding-top: 40px; padding-bottom: 80px; position: relative; }
+.xas .hero::before { content: ""; position: absolute; z-index: 0; top: -120px; right: -120px; width: 62%; max-width: 720px; height: 560px; background: var(--greige); border-radius: 58% 42% 47% 53% / 55% 48% 52% 45%; }
+.xas .hero::after { content: ""; position: absolute; z-index: 0; bottom: -80px; left: -160px; width: 340px; height: 300px; background: var(--sage); border-radius: 47% 53% 58% 42% / 52% 44% 56% 48%; }
+.xas .hero .cols { display: flex; flex-wrap: wrap; gap: 44px; align-items: center; position: relative; z-index: 1; }
 .xas .hero .txt { flex: 1 1 340px; min-width: 0; }
 .xas .hero .mock { flex: 1 1 340px; min-width: 0; }
-.xas .kicker { display: inline-block; background: var(--pale); color: #0A0A0A; font-weight: 700; font-size: 13px; border-radius: 999px; padding: 4px 16px; margin: 0 0 22px; }
-.xas h1 { font-family: "Jost", sans-serif; font-weight: 500; color: var(--blue); letter-spacing: .07em; line-height: 1.02; font-size: clamp(44px, 9vw, 92px); margin: 0 0 22px; text-transform: uppercase; }
-.xas .catch { font-size: clamp(22px, 3.6vw, 32px); font-weight: 700; color: var(--blue); line-height: 1.5; margin: 0 0 18px; }
+.xas .kicker { display: inline-block; background: #FFFFFF; border: 1px solid var(--line); color: var(--ink); font-weight: 700; font-size: 13px; border-radius: 100px; padding: 4px 16px; margin: 0 0 22px; }
+.xas h1 { color: var(--ink); letter-spacing: .01em; line-height: .98; font-size: clamp(54px, 9vw, 104px); margin: 0 0 22px; text-transform: lowercase; }
+.xas .catch { font-size: clamp(20px, 3vw, 26px); font-weight: 700; color: var(--ink); line-height: 1.6; margin: 0 0 18px; letter-spacing: .04em; }
 .xas .lead { margin: 0 0 30px; max-width: 32em; }
 .xas .cta { display: flex; flex-wrap: wrap; gap: 12px; }
-.xas .dots { height: 8px; background: radial-gradient(circle, #189BBC 2.5px, transparent 3px) 0 0 / 16px 8px repeat-x; margin: 0; }
-.xas .screen { background: var(--mist); border-radius: 8px; padding: 22px; box-shadow: 0 24px 60px rgba(24, 155, 188, .22); }
-.xas .screen .ttl { font-family: "Jost", sans-serif; color: var(--blue); letter-spacing: .1em; font-size: 22px; line-height: 1; margin: 0 0 4px; }
-.xas .screen .jp { color: var(--blue); font-weight: 700; font-size: 12px; margin: 0 0 14px; }
-.xas .screen .steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
-.xas .screen .cap { margin: 0 0 12px; font-size: 12px; font-weight: 700; color: var(--blue); }
-.xas .screen .steps button { font: inherit; border: 0; cursor: pointer; background: #FFFFFF; color: #0A0A0A; border-radius: 999px; padding: 4px 13px; font-size: 12px; font-weight: 700; }
-.xas .screen .steps button:hover { background: var(--pale); }
-.xas .screen .steps button.on { background: var(--blue); color: #FFFFFF; }
-.xas .screen .pane { min-height: 330px; }
-.xas .screen .q { font-family: "Jost", sans-serif; color: var(--blue); letter-spacing: .08em; margin-right: 8px; }
-.xas .screen .inp.ph { color: #9AA7AF; }
-.xas .screen .inp.art { line-height: 1.8; }
-.xas .screen .plan { background: #FFFFFF; border: 2px solid transparent; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; }
-.xas .screen .plan.on { border-color: var(--blue); }
-.xas .screen .plan b { display: block; font-size: 13px; line-height: 1.6; }
-.xas .screen .plan span { font-size: 12px; font-weight: 700; color: var(--blue); }
-.xas .screen .meter { font-family: "Jost", sans-serif; font-size: 12px; letter-spacing: .06em; color: var(--blue); margin: 0 0 6px; }
-.xas .screen .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.xas .screen .chips span { background: #FFFFFF; border: 1px solid var(--pale); border-radius: 999px; padding: 2px 11px; font-size: 12px; font-weight: 700; }
-.xas [hidden] { display: none !important; }
-.xas .screen .lab { font-size: 12px; font-weight: 700; margin: 10px 0 4px; }
-.xas .screen .inp { background: #FFFFFF; border-radius: 8px; padding: 9px 12px; font-size: 13px; line-height: 1.7; color: #333333; }
-.xas .screen .go { display: inline-block; margin-top: 16px; background: var(--blue); color: #FFFFFF; border: 0; cursor: pointer; font-family: inherit; text-decoration: none; border-radius: 999px; padding: 9px 22px; font-size: 13px; font-weight: 700; }
-.xas section { padding: 84px 0; }
-.xas section.tint { background: var(--mist); }
-.xas section.sea { background: var(--blue); color: #FFFFFF; }
-.xas .head { margin: 0 0 40px; color: var(--blue); }
-.xas .sea .head { color: #FFFFFF; }
-.xas .head .en { display: block; font-family: "Jost", sans-serif; font-weight: 500; letter-spacing: .1em; font-size: clamp(30px, 5vw, 44px); line-height: 1.1; }
-.xas .head .jp { display: block; font-size: 15px; font-weight: 700; margin-top: 8px; }
-.xas .three { display: flex; flex-wrap: wrap; gap: 20px; }
-.xas .three .card { flex: 1 1 260px; background: var(--mist); border-radius: 8px; padding: 28px; }
-.xas .card .num { font-family: "Jost", sans-serif; color: var(--blue); letter-spacing: .1em; font-size: 15px; }
-.xas .card h3 { font-size: 19px; line-height: 1.6; margin: 6px 0 10px; color: var(--ink); }
-.xas .card p { margin: 0; font-size: 15px; color: #333333; }
-.xas .tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.xas .tags li { background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .55); border-radius: 999px; padding: 8px 20px; font-weight: 700; font-size: 15px; }
-.xas .needs { display: flex; flex-wrap: wrap; gap: 20px; }
-.xas .needs .card { flex: 1 1 260px; background: var(--mist); border-radius: 8px; padding: 26px; }
-.xas .needs .card b { display: block; font-size: 18px; margin-bottom: 6px; }
-.xas .needs .card span { font-size: 14px; color: #333333; display: block; }
-.xas .flow { display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.xas .flow li { display: flex; gap: 20px; align-items: flex-start; background: #FFFFFF; border-radius: 8px; padding: 24px 26px; }
-.xas .flow .n { font-family: "Jost", sans-serif; font-size: 30px; line-height: 1.1; color: var(--blue); letter-spacing: .06em; flex: none; width: 48px; }
-.xas .flow b { display: block; font-size: 18px; line-height: 1.6; margin-bottom: 4px; }
-.xas .flow p { margin: 0; font-size: 15px; color: #333333; }
-.xas .flow .mini { display: inline-block; background: var(--pale); border-radius: 999px; padding: 0 12px; font-size: 13px; font-weight: 700; margin: 2px 2px 2px 0; }
 .xas .push { margin: 22px 0 0; font-size: 15px; }
-.xas .push b { color: var(--blue); }
-.xas .phone { background: var(--blue); color: #FFFFFF; border-radius: 8px; padding: 28px 30px; margin: 26px 0 0; }
-.xas .phone h3 { margin: 0 0 8px; font-size: 20px; }
+.xas .push b { color: var(--pink); }
+.xas .dots { height: 1px; background: var(--line); margin: 0; }
+.xas .screen { background: #FFFFFF; border: 1px solid var(--line); border-radius: 28px; padding: 24px; box-shadow: 0 30px 60px rgba(71, 60, 49, .10); }
+.xas .screen .ttl { color: var(--ink); font-size: 30px; line-height: 1; margin: 0 0 2px; text-transform: capitalize; }
+.xas .screen .jp { color: var(--taupe); font-weight: 700; font-size: 12px; margin: 0 0 14px; }
+.xas .screen .cap { margin: 0 0 12px; font-size: 12px; font-weight: 700; color: var(--taupe); }
+.xas .screen .steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
+.xas .screen .steps button { font: inherit; border: 1px solid var(--line); cursor: pointer; background: #FFFFFF; color: var(--ink); border-radius: 100px; padding: 4px 13px; font-size: 12px; font-weight: 700; }
+.xas .screen .steps button:hover { background: var(--greige); }
+.xas .screen .steps button.on { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
+.xas .screen .pane { min-height: 330px; }
+.xas .screen .q { color: var(--peach); font-size: 17px; margin-right: 8px; }
+.xas .screen .lab { font-size: 12px; font-weight: 700; margin: 10px 0 4px; }
+.xas .screen .inp { background: var(--greige); border-radius: 12px; padding: 9px 12px; font-size: 13px; line-height: 1.7; color: var(--ink); }
+.xas .screen .inp.ph { color: #A79B8E; }
+.xas .screen .inp.art { line-height: 1.8; }
+.xas .screen .plan { background: var(--greige); border: 2px solid transparent; border-radius: 14px; padding: 10px 14px; margin-bottom: 8px; }
+.xas .screen .plan.on { border-color: var(--pink); }
+.xas .screen .plan b { display: block; font-size: 13px; line-height: 1.6; }
+.xas .screen .plan span { font-size: 12px; font-weight: 700; color: var(--taupe); }
+.xas .screen .meter { font-size: 15px; color: var(--taupe); margin: 0 0 6px; }
+.xas .screen .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.xas .screen .chips span { background: #FFFFFF; border: 1px solid var(--line); border-radius: 100px; padding: 2px 11px; font-size: 12px; font-weight: 700; }
+.xas .screen .go { display: inline-block; margin-top: 16px; background: var(--taupe); color: #FFFFFF; border: 0; cursor: pointer; font-family: inherit; text-decoration: none; border-radius: 100px; padding: 9px 22px; font-size: 13px; font-weight: 700; }
+.xas [hidden] { display: none !important; }
+.xas section { padding: 90px 0; position: relative; }
+.xas section.tint { background: var(--greige); }
+.xas section.sea { background: var(--sand); color: var(--ink); }
+.xas .head { margin: 0 0 44px; color: var(--ink); }
+.xas .head .en { display: block; font-size: clamp(38px, 5.5vw, 56px); line-height: 1; letter-spacing: .01em; text-transform: capitalize; }
+.xas .head .jp { display: block; font-size: 14px; font-weight: 700; margin-top: 8px; color: var(--taupe); letter-spacing: .06em; }
+.xas .intro { margin: -18px 0 30px; max-width: 40em; }
+.xas .three { display: flex; flex-wrap: wrap; gap: 20px; }
+.xas .three .card { flex: 1 1 260px; background: var(--greige); border-radius: 24px; padding: 30px; }
+.xas .tint .three .card { background: #FFFFFF; }
+.xas .card .num { color: var(--peach); font-size: 20px; letter-spacing: .02em; }
+.xas .card h3 { font-size: 19px; line-height: 1.6; margin: 6px 0 10px; color: var(--ink); }
+.xas .card p { margin: 0; font-size: 15px; }
+.xas .tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.xas .tags li { background: #FFFFFF; border-radius: 100px; padding: 8px 20px; font-weight: 700; font-size: 15px; }
+.xas .needs { display: flex; flex-wrap: wrap; gap: 20px; }
+.xas .needs .card { flex: 1 1 260px; background: var(--greige); border-radius: 24px; padding: 26px; }
+.xas .needs .card b { display: block; font-size: 18px; margin-bottom: 6px; }
+.xas .needs .card span { font-size: 14px; display: block; }
+.xas .flow { display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.xas .flow li { display: flex; gap: 20px; align-items: flex-start; background: #FFFFFF; border-radius: 24px; padding: 26px 28px; }
+.xas .flow li > div { min-width: 0; flex: 1 1 auto; }
+.xas .flow .n { font-size: 34px; line-height: 1.1; color: var(--peach); flex: none; width: 52px; }
+.xas .flow b { display: block; font-size: 18px; line-height: 1.6; margin-bottom: 4px; }
+.xas .flow p { margin: 0; font-size: 15px; }
+.xas .flow .mini { display: inline-block; background: var(--greige); border-radius: 100px; padding: 0 12px; font-size: 13px; font-weight: 700; margin: 2px 2px 2px 0; }
+.xas .shot { margin: 16px 0 0; }
+.xas .shot img { display: block; width: 100%; max-width: 680px; height: auto; border-radius: 16px; border: 1px solid var(--line); background: #FFFFFF; }
+.xas .shot.narrow img { max-width: 380px; }
+.xas .shot figcaption { font-size: 13px; color: var(--taupe); margin-top: 6px; }
+.xas .pair { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; margin-top: 8px; }
+.xas .pair .shot { flex: 1 1 300px; min-width: 0; }
+.xas .pair .shot.narrow { flex: 0 1 300px; }
+.xas .phone { background: #FFFFFF; border: 2px solid var(--peach); color: var(--ink); border-radius: 28px; padding: 30px 32px; margin: 26px 0 0; }
+.xas .phone h3 { margin: 0 0 8px; font-size: 30px; line-height: 1.1; }
 .xas .phone p { margin: 0 0 12px; }
 .xas .phone ol { margin: 0 0 14px; padding-left: 1.4em; font-weight: 700; }
 .xas .phone li { margin-bottom: 4px; }
-.xas .phone .sub { font-size: 14px; margin: 0; opacity: .95; }
-.xas .loop { background: var(--pale); border-radius: 8px; padding: 22px 26px; margin: 26px 0 0; font-weight: 700; }
+.xas .phone .sub { font-size: 14px; margin: 0; color: var(--taupe); }
+.xas .loop { background: #FFFFFF; border-radius: 24px; padding: 22px 26px; margin: 26px 0 0; font-weight: 700; }
 .xas .loop small { display: block; font-weight: 500; font-size: 14px; margin-top: 4px; }
 .xas .notes { margin: 0; padding-left: 1.3em; }
 .xas .notes li { margin-bottom: 8px; }
 .xas .notes.tips { margin-top: 30px; }
-.xas .flow li > div { min-width: 0; flex: 1 1 auto; }
-.xas .shot { margin: 16px 0 0; }
-.xas .shot img { display: block; width: 100%; max-width: 680px; height: auto; border-radius: 8px; border: 1px solid var(--pale); background: #FFFFFF; }
-.xas .shot.narrow img { max-width: 380px; }
-.xas .shot figcaption { font-size: 13px; color: #5F6B73; margin-top: 6px; }
-.xas .pair { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; margin-top: 8px; }
-.xas .pair .shot { flex: 1 1 300px; min-width: 0; }
-.xas .pair .shot.narrow { flex: 0 1 300px; }
-.xas .intro { margin: -14px 0 30px; max-width: 40em; }
-.xas details { background: #FFFFFF; border-radius: 8px; margin-bottom: 10px; }
+.xas details { background: #FFFFFF; border-radius: 18px; margin-bottom: 10px; }
 .xas summary { cursor: pointer; font-weight: 700; padding: 18px 24px; }
-.xas details p { margin: 0; padding: 0 24px 22px; font-size: 15px; color: #333333; }
-.xas .last { text-align: center; }
-.xas .last .en { font-family: "Jost", sans-serif; letter-spacing: .1em; font-size: clamp(30px, 6vw, 56px); line-height: 1.1; margin: 0 0 12px; }
+.xas details p { margin: 0; padding: 0 24px 22px; font-size: 15px; }
+.xas .last { text-align: center; background: var(--greige); }
+.xas .last .en { font-size: clamp(40px, 7vw, 72px); line-height: 1; margin: 0 0 12px; text-transform: lowercase; }
 .xas .last p { margin: 0 0 30px; font-weight: 700; }
-.xas .foot { text-align: center; padding: 30px 0; margin: 0; font-family: "Jost", sans-serif; letter-spacing: .16em; font-size: 12px; color: var(--blue); }
+.xas .last .pill.white { background: var(--pink); border-color: var(--pink); color: #FFFFFF; }
+.xas .foot { text-align: center; padding: 30px 0; margin: 0; font-family: "Cormorant Garamond", serif; letter-spacing: .08em; font-size: 16px; color: var(--taupe); }
 @media (max-width: 640px) {
   .xas section { padding: 60px 0; }
-  .xas .hero { padding-top: 12px; padding-bottom: 52px; }
-  .xas .flow li { padding: 20px; gap: 12px; }
-  .xas .flow .n { width: 38px; font-size: 24px; }
+  .xas .hero { padding-top: 16px; padding-bottom: 56px; }
+  .xas .hero::before { right: -180px; top: -140px; width: 90%; height: 420px; }
+  .xas .flow li { padding: 20px; gap: 12px; border-radius: 18px; }
+  .xas .flow .n { width: 40px; font-size: 26px; }
   .xas .pill.big { width: 100%; }
   .xas .nav .pill { padding: 9px 18px; font-size: 14px; }
+  .xas .phone { padding: 22px 18px; }
 }
 </style>
 </head>
@@ -123,7 +129,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 
 <div class="xas">
   <div class="wrap bar">
-    <div class="logo">SHIO AI SCHOOL<small>BUYER'S BONUS</small></div>
+    <div class="logo">shio ai school<small>ご購入者さま特典</small></div>
     <div class="nav">
       <a class="pill" href="#howto">使い方</a>
       <a class="pill main" href="https://claude.ai/artifact/5vsqqg2bg9XwcMS2yXQJwC" target="_blank" rel="noopener">ツールを開く</a>
@@ -150,7 +156,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
             <button type="button" class="on" data-t="0">01 素材</button><button type="button" data-t="1">02 質問</button><button type="button" data-t="2">03 構成</button><button type="button" data-t="3">04 本文</button><button type="button" data-t="4">05 告知とサムネ</button>
           </div>
           <div class="pane" data-p="0">
-            <p class="ttl">MATERIAL</p><p class="jp">まず、記事の素材を入れる</p>
+            <p class="ttl">Material</p><p class="jp">まず、記事の素材を入れる</p>
             <p class="lab">記事のテーマ</p>
             <div class="inp">Threadsの投稿をXにも出し始めて気づいたこと</div>
             <p class="lab">記事にしたい内容（体験メモ）</p>
@@ -158,7 +164,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
             <button type="button" class="go" data-t="1">足りない話を質問してもらう</button>
           </div>
           <div class="pane" data-p="1" hidden>
-            <p class="ttl">QUESTIONS</p><p class="jp">記事に足りない話を、質問で引き出す</p>
+            <p class="ttl">Questions</p><p class="jp">記事に足りない話を、質問で引き出す</p>
             <p class="lab"><span class="q">Q1</span>そのまま貼っていた時期は、何本くらい試しましたか？</p>
             <div class="inp">2週間で20本くらい。いいねは毎回0〜2</div>
             <p class="lab"><span class="q">Q2</span>1投稿目を、具体的にどう書き直しましたか？</p>
@@ -168,21 +174,21 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
             <button type="button" class="go" data-t="2">構成を提案してもらう</button>
           </div>
           <div class="pane" data-p="2" hidden>
-            <p class="ttl">OUTLINE</p><p class="jp">タイトルと構成を選ぶ</p>
+            <p class="ttl">Outline</p><p class="jp">タイトルと構成を選ぶ</p>
             <div class="plan on"><b>Threadsの投稿をXに貼って20本すべった話【直した順番つき】</b><span>失敗から入る</span></div>
             <div class="plan"><b>Threads民がXを始める前に直す3か所【チェックリスト付き】</b><span>手順に絞る</span></div>
             <div class="plan"><b>「同じ投稿を両方に出せばいい」は半分まちがいだった</b><span>思い込みをひっくり返す</span></div>
             <button type="button" class="go" data-t="3">この構成で記事を書く</button>
           </div>
           <div class="pane" data-p="3" hidden>
-            <p class="ttl">WRITING</p><p class="jp">本文を仕上げる</p>
+            <p class="ttl">Writing</p><p class="jp">本文を仕上げる</p>
             <p class="meter">3,842字 ・ 原稿用紙 10枚</p>
             <div class="inp art"># Threadsの投稿をXに貼って20本すべった話【直した順番つき】<br><br>2週間で20本。<br>いいねは毎回0〜2。<br>Threadsでは読まれていた投稿です。<br><br>変えたのは1か所だけでした。<br>【要追記：書き直したあとの反応の数字】</div>
             <div class="chips"><span>もっと自分の口調に</span><span>短くする</span><span>選んだ部分だけ直す</span><span>作り話チェック</span></div>
             <button type="button" class="go" data-t="4">告知投稿とサムネ用プロンプトを作る</button>
           </div>
           <div class="pane" data-p="4" hidden>
-            <p class="ttl">PROMOTION</p><p class="jp">告知投稿とサムネ用プロンプト</p>
+            <p class="ttl">Promotion</p><p class="jp">告知投稿とサムネ用プロンプト</p>
             <p class="lab">告知投稿（1本）</p>
             <div class="inp">Threadsの投稿をそのままXに貼って、20本すべりました。直したのは1か所だけ。記事にまとめました【記事URL】</div>
             <p class="lab">サムネ用プロンプト（ChatGPTに貼る）</p>
@@ -197,18 +203,18 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 
   <section>
     <div class="wrap">
-      <h2 class="head"><span class="en">ABOUT</span><span class="jp">X記事スタジオとは</span></h2>
+      <h2 class="head"><span class="en">about</span><span class="jp">X記事スタジオとは</span></h2>
       <div class="three">
-        <div class="card"><span class="num">POINT 01</span><h3>自分の体験だけで書く</h3><p>入力していない実績や数字を、AIが勝手に足すことはありません。足りないところは【要追記】という穴のまま残るので、自分の言葉で埋められます。</p></div>
-        <div class="card"><span class="num">POINT 02</span><h3>参考記事の「構成だけ」借りる</h3><p>真似したい発信者さんの記事を貼ると、ブロックの順番と役割だけを取り出します。文章や体験談は写さず、中身は自分の素材で書きます。</p></div>
-        <div class="card"><span class="num">POINT 03</span><h3>書いたあとまで面倒を見る</h3><p>記事への入口になる告知投稿を3種類。さらに、ChatGPTに貼るだけのサムネ用プロンプトまで一緒に出てきます。</p></div>
+        <div class="card"><span class="num">Point 01</span><h3>自分の体験だけで書く</h3><p>入力していない実績や数字を、AIが勝手に足すことはありません。足りないところは【要追記】という穴のまま残るので、自分の言葉で埋められます。</p></div>
+        <div class="card"><span class="num">Point 02</span><h3>参考記事の「構成だけ」借りる</h3><p>真似したい発信者さんの記事を貼ると、ブロックの順番と役割だけを取り出します。文章や体験談は写さず、中身は自分の素材で書きます。</p></div>
+        <div class="card"><span class="num">Point 03</span><h3>書いたあとまで面倒を見る</h3><p>記事への入口になる告知投稿を3種類。さらに、ChatGPTに貼るだけのサムネ用プロンプトまで一緒に出てきます。</p></div>
       </div>
     </div>
   </section>
 
   <section class="sea">
     <div class="wrap">
-      <h2 class="head"><span class="en">FEATURE</span><span class="jp">できること</span></h2>
+      <h2 class="head"><span class="en">feature</span><span class="jp">できること</span></h2>
       <ul class="tags">
         <li>体験を引き出す追加質問</li><li>切り口の違う構成を3案</li><li>本文の下書き</li><li>選んだ部分だけ直す</li><li>自分の口調に寄せる</li><li>作り話が混ざっていないか確認</li><li>告知投稿・ツリー・別角度の投稿</li><li>参考サムネの読み取り</li><li>サムネ用プロンプト（キャラ画像OK）</li><li>複数アカウントの切り替え</li><li>参考にする記事の登録</li><li>伸びた記事の保管庫</li><li>バックアップと引っ越し</li><li>導入後はスマホでも使える</li>
       </ul>
@@ -217,7 +223,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 
   <section>
     <div class="wrap">
-      <h2 class="head"><span class="en">WHAT YOU NEED</span><span class="jp">用意するもの</span></h2>
+      <h2 class="head"><span class="en">what you need</span><span class="jp">用意するもの</span></h2>
       <div class="needs">
         <div class="card"><b>Claudeのアカウント</b><span>ツールはあなたのClaudeの中で動き、文章づくりにはあなたのClaudeの利用枠を使います。無料プランでも使えますが、1日に使える回数には上限があります。</span></div>
         <div class="card"><b>ChatGPTのアカウント</b><span>サムネを作りたい人だけ。画像を作れる回数は、ご自身のプランによって変わります。</span></div>
@@ -228,7 +234,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 
   <section class="tint" id="howto">
     <div class="wrap">
-      <h2 class="head"><span class="en">HOW TO USE</span><span class="jp">導入方法と使い方</span></h2>
+      <h2 class="head"><span class="en">how to use</span><span class="jp">導入方法と使い方</span></h2>
       <ol class="flow">
         <li><span class="n">01</span><div><b>Claudeにログインしてから、ツールのリンクを開く</b><p>先に claude.ai にログインしておき、「X記事スタジオを開く」を押します。この時点では上の表示が「コピペモード」になっていますが、それで合っています。</p><figure class="shot"><img src="img/01-open.jpg" alt="リンクを開いた直後の画面。上にコピペモードと表示されている" loading="lazy"><figcaption>開いた直後はこの状態。「コピペモード」と出ていてOK</figcaption></figure></div></li>
         <li><span class="n">02</span><div><b>左上の「X記事スタジオ ▾」から「複製」する</b><p>画面左上のツール名を押して「複製」を選ぶと、あなた専用のコピーができます。コピーの持ち主はあなたなので、ここからはあなたのClaudeで動きます。</p><figure class="shot narrow"><img src="img/02-duplicate.jpg" alt="左上のツール名を押して開いたメニュー。上から2番目に複製がある" loading="lazy"><figcaption>左上のツール名を押すとメニューが開く。上から2番目の「複製」を押す</figcaption></figure></div></li>
@@ -256,7 +262,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 
   <section id="keep">
     <div class="wrap">
-      <h2 class="head"><span class="en">KEEP YOUR COPY</span><span class="jp">自分のコピーを取っておく</span></h2>
+      <h2 class="head"><span class="en">keep your copy</span><span class="jp">自分のコピーを取っておく</span></h2>
       <p class="intro">複製してできたコピーは、あなたのClaudeの中に保存されています。次からすぐ開けるように、下のどちらか（両方でもOK）をやっておいてください。</p>
       <div class="three">
         <div class="card"><span class="num">おすすめ</span><h3>Claudeにピン留めする</h3><p>Claudeの左のサイドバーで「Artifacts」を押すと、自分のアーティファクトの一覧が出ます。「X記事スタジオ (Copy)」の右にある ⋮ を押して「ピン留め」を選ぶと、サイドバーにいつも表示されるようになります。</p></div>
@@ -275,7 +281,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 
   <section>
     <div class="wrap">
-      <h2 class="head"><span class="en">NOTES</span><span class="jp">使う前に知っておいてほしいこと</span></h2>
+      <h2 class="head"><span class="en">notes</span><span class="jp">使う前に知っておいてほしいこと</span></h2>
       <ul class="notes">
         <li>入力した内容は、あなたの端末のブラウザにだけ保存されます。ほかの購入者さんや、しおちゃんからは見えません。</li>
         <li>スマホとパソコンでは、下書きは別々になります。引っ越すときは「アカウント設定」の「バックアップを文字でコピー」を使ってください。</li>
@@ -289,7 +295,7 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 
   <section class="tint">
     <div class="wrap">
-      <h2 class="head"><span class="en">FAQ</span><span class="jp">よくある質問</span></h2>
+      <h2 class="head"><span class="en">faq</span><span class="jp">よくある質問</span></h2>
       <details><summary>上の表示が「コピペモード」のままです</summary><p>複製する前のページを開いているか、Claudeにログインしていない状態です。ログインしたうえで、左上のツール名から「複製」してできた自分のコピーを開いてください。それでも変わらないときは、予備のページ（コピペ方式）でも同じことができます。</p></details>
       <details><summary>Claudeの利用枠はどのくらい使いますか</summary><p>1記事で、質問・構成・本文・告知の4回ほどClaudeを呼びます。ふだんのチャットと同じ扱いで、あなたのプランの上限の範囲で使えます。上限に当たったら、時間をおいて続きから再開できます（下書きは残っています）。</p></details>
       <details><summary>スマホでも使えますか</summary><p>使えます。最初の導入（複製とピン留め）だけパソコンでやっておけば、あとはスマホのClaudeで「Artifacts」から自分のコピーを開くだけです。下書きや設定は端末ごとに別々なので、パソコンの設定を使いたいときはバックアップで移してください。長い記事を大きく書き直すときは、パソコンのほうが楽です。</p></details>
@@ -302,12 +308,12 @@ body:has(.xas) .entry-content, body:has(.xas) .wp-block-post-content { margin: 0
 
   <section class="sea last">
     <div class="wrap">
-      <p class="en">WRITE YOUR STORY</p>
+      <p class="en">write your story</p>
       <p>まずは入力例のまま、1本通してみてください</p>
       <a class="pill white big" href="https://claude.ai/artifact/5vsqqg2bg9XwcMS2yXQJwC" target="_blank" rel="noopener">X記事スタジオを開く</a>
     </div>
   </section>
-  <p class="foot">SHIO AI SCHOOL</p>
+  <p class="foot">shio ai school</p>
 </div>
 <script>
 (function(){var t=document.getElementById("tour");if(!t)return;
